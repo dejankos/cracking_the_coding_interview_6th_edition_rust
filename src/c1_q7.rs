@@ -33,8 +33,3 @@ mod tests {
         assert_eq!(rotate(&mut img), expected);
     }
 }
-
-fn main() {
-    let mut img: Image = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
-    println!("rotate - {:?}", rotate(&mut img));
-}

@@ -72,7 +72,3 @@ mod tests {
         assert_eq!(is_one_away("Zero hour nine AM", "And I'm gonna be high as a kite by then"), false);
     }
 }
-
-fn main() {
-    println!(" is_one_away - {}", is_one_away("pale", "ple"));
-}

@@ -27,7 +27,3 @@ mod tests {
         assert_eq!(is_rotation("potato", "tomato"), false);
     }
 }
-
-fn main() {
-    println!("is_rotation - {}", is_rotation("waterbottle", "erbottlewat"));
-}

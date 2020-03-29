@@ -64,13 +64,3 @@ mod tests {
         assert_eq!(replace_3("Mr John Smith     "), "Mr%20John%20Smith");
     }
 }
-
-fn main() {
-    println!(" replace - {:?},\
-     replace_2 - {:?},\
-     replace_3 - {:?}",
-             (replace("Mr John Smith     "), "Mr%20John%20Smith"),
-             (replace_2("Mr John Smith     "), "Mr%20John%20Smith"),
-             (replace_3("Mr John Smith     "), "Mr%20John%20Smith"),
-    )
-}

@@ -57,11 +57,3 @@ mod tests {
         assert_eq!(is_per_hash("abc", "aabe"), false);
     }
 }
-
-fn main() {
-    println!(" is_per - {},\
-     is_per_hash - {}",
-             is_per("abc", "bca"),
-             is_per_hash("abc", "bca")
-    )
-}

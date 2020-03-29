@@ -50,7 +50,3 @@ mod tests {
         assert_eq!(compress("abcd"), "abcd");
     }
 }
-
-fn main() {
-    println!("compress - {}", compress("aaaabbcc"));
-}

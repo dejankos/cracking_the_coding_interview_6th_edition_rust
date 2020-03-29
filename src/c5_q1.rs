@@ -27,7 +27,3 @@ mod tests {
         assert_eq!(insert_bits(0b10001111100, 0b10011, 2, 6), 0b10001001100);
     }
 }
-
-fn main() {
-    println!("insert bits - {:#b}", insert_bits(0b10001111100, 0b10011, 2, 6));
-}

@@ -44,8 +44,3 @@ mod tests {
         assert_eq!(write_zero(&mut matrix), &expected);
     }
 }
-
-fn main() {
-    let mut matrix: Matrix = [[1, 2, 3, 0], [5, 0, 7, 8], [9, 10, 11, 12]];
-    println!("write_zero - {:?}", write_zero(&mut matrix))
-}

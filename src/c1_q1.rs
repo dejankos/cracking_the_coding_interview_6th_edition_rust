@@ -89,17 +89,3 @@ mod tests {
         assert_eq!(has_unique_sort_and_check_neighbour(NON_UNIQUE_STR), false);
     }
 }
-
-fn main() {
-    println!(" has_unique_brute_force - {},\
-     has_unique_store_in_hash_set - {},\
-     has_unique_store_in_array_hash - {},\
-     has_unique_sort_and_check_neighbour - {},\
-     non-unique - {}",
-             has_unique_brute_force(UNIQUE_STR),
-             has_unique_store_in_hash_set(UNIQUE_STR),
-             has_unique_store_in_array_hash(UNIQUE_STR),
-             has_unique_sort_and_check_neighbour(UNIQUE_STR),
-             has_unique_brute_force(NON_UNIQUE_STR)
-    )
-}

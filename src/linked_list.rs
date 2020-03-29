@@ -12,13 +12,22 @@ use std::rc::Rc;
 type Link<T> = Option<RcLink<T>>;
 type RcLink<T> = Rc<RefCell<Node<T>>>;
 
+pub trait List<T>
+    where T: PartialEq
+{
+    fn new() -> Self;
+    fn add(&mut self, e: T);
+    fn remove(&mut self, e: T);
+    fn into_iter(&mut self) -> IntoIter<T>;
+}
+
 pub struct Node<T> {
-    e: T,
+    pub e: T,
     next: Link<T>,
     prev: Link<T>,
 }
 
-pub struct List<T> {
+pub struct LinkedList<T> {
     head: Link<T>,
     tail: Link<T>,
     size: u32,
@@ -37,7 +46,7 @@ impl<T> Node<T> {
         }))
     }
 
-    fn unlink(&mut self, list: &mut List<T>) {
+    pub fn unlink(&mut self, list: &mut LinkedList<T>) {
         if self.is_only_element() {
             list.head = None;
             list.tail = None;
@@ -68,14 +77,14 @@ impl<T> Node<T> {
     }
 }
 
-impl<T> List<T>
+impl<T> List<T> for LinkedList<T>
     where T: PartialEq
 {
-    pub fn new() -> Self {
+    fn new() -> Self {
         Self { head: None, tail: None, size: 0 }
     }
 
-    pub fn add(&mut self, e: T) {
+    fn add(&mut self, e: T) {
         let new_node = Node::new(e);
         match self.tail.take() {
             Some(tail) => {
@@ -92,21 +101,22 @@ impl<T> List<T>
         self.size = self.size + 1;
     }
 
-    pub fn remove(&mut self, e: T) {
+    fn remove(&mut self, e: T) {
         for node in self.into_iter() {
             if node.borrow().e == e {
                 node.borrow_mut().unlink(self);
+                break; // remove first
             }
         }
     }
 
-    pub fn into_iter(&mut self) -> IntoIter<T> {
+    fn into_iter(&mut self) -> IntoIter<T> {
         IntoIter { next: self.head.clone() }
     }
 }
 
 #[allow(unused_must_use)]
-impl<T: Display> Display for List<T> {
+impl<T: Display> Display for LinkedList<T> {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         let mut current = self.head.clone();
         write!(f, "{}", "[");
@@ -142,7 +152,7 @@ mod tests {
 
     #[test]
     fn should_have_correct_size() {
-        let mut list: List<u32> = List::new();
+        let mut list: LinkedList<u32> = List::new();
         list.add(1);
         list.add(2);
         list.add(3);
@@ -152,7 +162,7 @@ mod tests {
 
     #[test]
     fn should_format_list() {
-        let mut list: List<u32> = List::new();
+        let mut list: LinkedList<u32> = List::new();
         list.add(1);
         list.add(2);
         list.add(3);
@@ -162,7 +172,7 @@ mod tests {
 
     #[test]
     fn should_remove_head() {
-        let mut list: List<u32> = List::new();
+        let mut list: LinkedList<u32> = List::new();
         list.add(1);
         list.add(2);
         list.add(3);
@@ -177,7 +187,7 @@ mod tests {
 
     #[test]
     fn should_remove_tail() {
-        let mut list: List<u32> = List::new();
+        let mut list: LinkedList<u32> = List::new();
         list.add(1);
         list.add(2);
         list.add(3);
@@ -192,7 +202,7 @@ mod tests {
 
     #[test]
     fn should_remove_middle() {
-        let mut list: List<u32> = List::new();
+        let mut list: LinkedList<u32> = List::new();
         list.add(1);
         list.add(2);
         list.add(3);
@@ -204,17 +214,4 @@ mod tests {
         assert_eq!(list.tail.as_ref().unwrap().borrow().e, 3);
         assert_eq!(list.size, 2);
     }
-}
-
-fn main() {
-    let mut list: List<u32> = List::new();
-    list.add(1);
-    list.add(2);
-    list.add(3);
-
-    list.remove(1);
-
-    println!("{}", list);
-    println!("{:?}", list.head.as_ref().unwrap().borrow().e);
-    println!("{:?}", list.tail.as_ref().unwrap().borrow().e);
 }

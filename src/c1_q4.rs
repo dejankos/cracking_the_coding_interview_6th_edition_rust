@@ -46,7 +46,3 @@ mod tests {
         assert_eq!(is_palindrome_permutation("She packed my bags last night pre-flight..."), false);
     }
 }
-
-fn main() {
-    println!(" is_palindrome_permutation - {}", is_palindrome_permutation("Tact Coa"));
-}
