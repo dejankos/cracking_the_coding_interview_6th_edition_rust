@@ -9,9 +9,10 @@ use std::fmt;
 use std::fmt::{Display, Formatter};
 use std::rc::Rc;
 
-type Link<T> = Option<Rc<RefCell<Node<T>>>>;
+type Link<T> = Option<RcLink<T>>;
+type RcLink<T> = Rc<RefCell<Node<T>>>;
 
-struct Node<T> {
+pub struct Node<T> {
     e: T,
     next: Link<T>,
     prev: Link<T>,
@@ -24,7 +25,7 @@ pub struct List<T> {
 }
 
 pub struct IntoIter<T> {
-    next: Link<T>
+    next: Option<RcLink<T>>
 }
 
 impl<T> Node<T> {
@@ -36,21 +37,40 @@ impl<T> Node<T> {
         }))
     }
 
-    fn unlink(&mut self) {
-        match self.prev.take() {
-            Some(prev) => {
-                prev.borrow_mut().next = if let Some(next) = self.next.take() {
-                    Some(next)
-                } else {
-                    None
-                };
+    fn unlink(&mut self, list: &mut List<T>) {
+        if self.is_only_element() {
+            list.head = None;
+            list.tail = None;
+        } else if self.is_first() {
+            list.head = self.next.clone();
+        } else {
+            if self.is_last() {
+                list.tail = self.prev.clone();
             }
-            _ => {}
+
+            // unwrap should be safe here
+            self.prev.take().unwrap().borrow_mut().next = self.next.clone();
         }
+
+        list.size = list.size - 1;
+    }
+
+    fn is_first(&self) -> bool {
+        self.prev.is_none() && self.next.is_some()
+    }
+
+    fn is_last(&self) -> bool {
+        self.prev.is_some() && self.next.is_none()
+    }
+
+    fn is_only_element(&self) -> bool {
+        self.prev.is_none() && self.next.is_none()
     }
 }
 
-impl<T> List<T> {
+impl<T> List<T>
+    where T: PartialEq
+{
     pub fn new() -> Self {
         Self { head: None, tail: None, size: 0 }
     }
@@ -72,13 +92,20 @@ impl<T> List<T> {
         self.size = self.size + 1;
     }
 
-    pub fn remove(&mut self, e: T) {}
+    pub fn remove(&mut self, e: T) {
+        for node in self.into_iter() {
+            if node.borrow().e == e {
+                node.borrow_mut().unlink(self);
+            }
+        }
+    }
 
-    pub fn into_iter(self) -> IntoIter<T> {
+    pub fn into_iter(&mut self) -> IntoIter<T> {
         IntoIter { next: self.head.clone() }
     }
 }
 
+#[allow(unused_must_use)]
 impl<T: Display> Display for List<T> {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         let mut current = self.head.clone();
@@ -96,18 +123,18 @@ impl<T: Display> Display for List<T> {
     }
 }
 
-// impl<T> Iterator for IntoIter<T> {
-//     type Item = Link<T>;
-//     fn next(&mut self) -> Option<Self::Item> {
-//         match self.next.take() {
-//             Some(current) => {
-//                 self.next = current.borrow_mut().next.clone();
-//                 Some(Some(current))
-//             }
-//             _ => None
-//         }
-//     }
-// }
+impl<T> Iterator for IntoIter<T> {
+    type Item = RcLink<T>;
+    fn next(&mut self) -> Option<Self::Item> {
+        match self.next.take() {
+            Some(current) => {
+                self.next = current.borrow().next.clone();
+                Some(current)
+            }
+            _ => None
+        }
+    }
+}
 
 #[cfg(test)]
 mod tests {
@@ -132,6 +159,51 @@ mod tests {
 
         assert_eq!(format!("{}", list), "[1, 2, 3]");
     }
+
+    #[test]
+    fn should_remove_head() {
+        let mut list: List<u32> = List::new();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+
+        list.remove(1);
+
+        assert_eq!(format!("{}", list), "[2, 3]");
+        assert_eq!(list.head.as_ref().unwrap().borrow().e, 2);
+        assert_eq!(list.tail.as_ref().unwrap().borrow().e, 3);
+        assert_eq!(list.size, 2);
+    }
+
+    #[test]
+    fn should_remove_tail() {
+        let mut list: List<u32> = List::new();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+
+        list.remove(3);
+
+        assert_eq!(format!("{}", list), "[1, 2]");
+        assert_eq!(list.head.as_ref().unwrap().borrow().e, 1);
+        assert_eq!(list.tail.as_ref().unwrap().borrow().e, 2);
+        assert_eq!(list.size, 2);
+    }
+
+    #[test]
+    fn should_remove_middle() {
+        let mut list: List<u32> = List::new();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+
+        list.remove(2);
+
+        assert_eq!(format!("{}", list), "[1, 3]");
+        assert_eq!(list.head.as_ref().unwrap().borrow().e, 1);
+        assert_eq!(list.tail.as_ref().unwrap().borrow().e, 3);
+        assert_eq!(list.size, 2);
+    }
 }
 
 fn main() {
@@ -140,5 +212,9 @@ fn main() {
     list.add(2);
     list.add(3);
 
+    list.remove(1);
+
     println!("{}", list);
+    println!("{:?}", list.head.as_ref().unwrap().borrow().e);
+    println!("{:?}", list.tail.as_ref().unwrap().borrow().e);
 }
