@@ -1,4 +1,5 @@
-// A basic linked list implementation for all chapter 2 problems
+// Base linked list implementation for all chapter 2 problems.
+// Each problem adds a decorator trait.
 //
 // Implementation based on resources ->
 // https://doc.rust-lang.org/1.30.0/book/second-edition/ch15-05-interior-mutability.html#having-multiple-owners-of-mutable-data-by-combining-rct-and-refcellt
@@ -7,6 +8,7 @@
 use std::cell::RefCell;
 use std::fmt;
 use std::fmt::{Display, Formatter};
+use std::iter::FromIterator;
 use std::rc::Rc;
 
 type Link<T> = Option<RcLink<T>>;
@@ -117,7 +119,7 @@ impl<T> List<T> for LinkedList<T>
     }
 
     fn size(&self) -> u32 {
-       self.size
+        self.size
     }
 }
 
@@ -149,6 +151,19 @@ impl<T> Iterator for IntoIter<T> {
             }
             _ => None
         }
+    }
+}
+
+impl<A> FromIterator<A> for LinkedList<A>
+    where A: PartialEq
+{
+    fn from_iter<T: IntoIterator<Item=A>>(iter: T) -> Self {
+        let mut list = LinkedList::new();
+        for i in iter {
+            list.add(i);
+        }
+
+        list
     }
 }
 

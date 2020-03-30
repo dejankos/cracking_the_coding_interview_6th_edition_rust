@@ -12,14 +12,11 @@ impl<T> KtoLast<T> for LinkedList<T>
     where T: std::cmp::PartialEq + Clone
 {
     fn k_to_last(&mut self, k: usize) -> Self {
-        let mut list = LinkedList::new();
         self.into_iter().skip(k) // since I've written Iterator for LL why not use it
             .collect::<Vec<RcLink<T>>>()
             .into_iter()
             .map(|rc| rc.borrow_mut().e.clone())
-            .for_each(|e| list.add(e)); // TODO collect into LL instead of for each
-
-        list
+            .collect::<LinkedList<T>>()
     }
 }
 
