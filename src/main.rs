@@ -1,6 +1,7 @@
 mod linked_list;
 mod c2_q1;
 mod c2_q2;
+mod c2_q3;
 mod c1_q1;
 mod c1_q2;
 mod c1_q3;
