@@ -35,7 +35,7 @@ mod tests {
 
     #[test]
     fn should_remove_duplicates() {
-        let mut list:LinkedList<u32>  = List::new();
+        let mut list = LinkedList::new();
         list.add(1);
         list.add(2);
         list.add(1);

@@ -2,9 +2,6 @@
 //cannot use additional data structures?
 use std::collections::HashSet;
 
-static UNIQUE_STR: &str = "Rust";
-static NON_UNIQUE_STR: &str = "Potato";
-
 fn has_unique_brute_force(s: &str) -> bool {
     let c_vec: Vec<char> = s.chars().collect();
 
@@ -72,6 +69,9 @@ fn _has_unique_bit_vector(_s: &str) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    static UNIQUE_STR: &str = "Rust";
+    static NON_UNIQUE_STR: &str = "Potato";
 
     #[test]
     fn should_be_unique() {
