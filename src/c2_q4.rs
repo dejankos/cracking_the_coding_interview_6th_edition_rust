@@ -7,27 +7,47 @@
 // Output: 3 -> 1 -> 2 -> 10 -> 5 -> 5 -> 8
 // Hints: #3, #24
 
-use crate::linked_list::{LinkedList, List};
+use crate::linked_list::{LinkedList, List, RcLink};
 
 trait Partition<T>: List<T>
-    where T: PartialEq
+    where T: PartialEq + PartialOrd + Clone
 {
-    fn partition(&self, part_element: usize) -> Self;
-}
+    fn partition(&mut self, part_element: T) -> Self;
 
+    fn part<F>(&mut self, filter: F) -> Self
+        where F: FnMut(&RcLink<T>) -> bool;
+}
 
 impl<T> Partition<T> for LinkedList<T>
-    where T: PartialEq
+    where T: PartialEq + PartialOrd + Clone
 {
-    fn partition(&self, part_element: usize) -> Self {
-        LinkedList::new()
+    fn partition(&mut self, part_element: T) -> Self {
+        self.part(|rc_ref| rc_ref.borrow().e < part_element)
+            .into_iter()
+            .chain(
+                self.part(
+                    |rc_ref| rc_ref.borrow().e >= part_element
+                ).into_iter()
+            )
+            .map(|rc| rc.borrow_mut().e.clone())
+            .collect::<LinkedList<T>>()
+    }
+
+    fn part<F>(&mut self, mut filter: F) -> Self
+        where F: FnMut(&RcLink<T>) -> bool
+    {
+        self.into_iter()
+            .filter(|rc_ref| filter(rc_ref))
+            .map(|rc| rc.borrow_mut().e.clone())
+            .collect::<LinkedList<T>>()
     }
 }
-
 
 #[cfg(test)]
 mod tests {
     use crate::linked_list::{LinkedList, List};
+
+    use super::*;
 
     #[test]
     fn should_partition_list() {
@@ -40,7 +60,9 @@ mod tests {
         list.add(2);
         list.add(1);
 
+        let partitioned = list.partition(5);
 
-        assert_eq!(list.size(), 7);
+        assert_eq!(partitioned.size(), 7);
+        assert_eq!(format!("{}", partitioned), "[3, 2, 1, 5, 8, 5, 10]");
     }
 }
