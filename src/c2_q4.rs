@@ -30,7 +30,7 @@ impl<T> Partition<T> for LinkedList<T>
                 ).into_iter()
             )
             .map(|rc| rc.borrow_mut().e.clone())
-            .collect::<LinkedList<T>>()
+            .collect()
     }
 
     fn part<F>(&mut self, mut filter: F) -> Self
@@ -39,7 +39,7 @@ impl<T> Partition<T> for LinkedList<T>
         self.into_iter()
             .filter(|rc_ref| filter(rc_ref))
             .map(|rc| rc.borrow_mut().e.clone())
-            .collect::<LinkedList<T>>()
+            .collect()
     }
 }
 

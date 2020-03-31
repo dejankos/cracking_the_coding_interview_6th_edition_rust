@@ -16,7 +16,7 @@ impl<T> KtoLast<T> for LinkedList<T>
             .collect::<Vec<RcLink<T>>>()
             .into_iter()
             .map(|rc| rc.borrow_mut().e.clone())
-            .collect::<LinkedList<T>>()
+            .collect()
     }
 }
 
