@@ -47,11 +47,19 @@ pub struct IntoIter<T> {
 }
 
 impl<T> Node<T> {
-    fn new(e: T) -> Rc<RefCell<Self>> {
+    pub fn new(e: T) -> Rc<RefCell<Self>> {
         Rc::new(RefCell::new(Node {
             e,
             prev: None,
             next: None,
+        }))
+    }
+
+    pub fn new_(e: T, next: Link<T>) -> Rc<RefCell<Self>> {
+        Rc::new(RefCell::new(Node {
+            e,
+            prev: None,
+            next,
         }))
     }
 
