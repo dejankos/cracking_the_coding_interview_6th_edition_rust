@@ -24,6 +24,12 @@ pub trait List<T>
     fn size(&self) -> u32;
 }
 
+pub trait SinglyLinkedReferenceExtension<T>: List<T>
+    where T: PartialEq
+{
+    fn add_node(&mut self, node: Link<T>);
+}
+
 pub struct Node<T> {
     pub e: T,
     pub next: Link<T>,
@@ -159,16 +165,15 @@ impl<T> Iterator for IntoIter<T> {
     }
 }
 
-impl<T> DoubleEndedIterator for IntoIter<T>  {
+impl<T> DoubleEndedIterator for IntoIter<T> {
     fn next_back(&mut self) -> Option<Self::Item> {
-       match self.next.take() {
-           Some(current) => {
-               self.next = current.borrow().prev.clone();
-               Some(current)
-           }
-           _ => None
-       }
-
+        match self.next.take() {
+            Some(current) => {
+                self.next = current.borrow().prev.clone();
+                Some(current)
+            }
+            _ => None
+        }
     }
 }
 
@@ -182,6 +187,23 @@ impl<A> FromIterator<A> for LinkedList<A>
         }
 
         list
+    }
+}
+
+impl<T> SinglyLinkedReferenceExtension<T> for LinkedList<T>
+    where T: PartialEq
+{
+    fn add_node(&mut self, link: Link<T>) {
+        match self.tail.take() {
+            Some(tail) => {
+                tail.borrow_mut().next = link.clone();
+            }
+            _ => panic!("Doesn't support empty!")
+        }
+
+        // Since it's a singly linked list I'll not fix tail reference here or prev reference.
+        // Next is the only reference that should be used - tail in add_node is an exclusion
+        // I don't feel like rewriting the whole thing as singly linked just for this 2_7 and 2_8 problems =)
     }
 }
 
