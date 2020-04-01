@@ -4,6 +4,7 @@ mod c2_q2;
 mod c2_q3;
 mod c2_q4;
 mod c2_q5;
+mod c2_q6;
 mod c1_q1;
 mod c1_q2;
 mod c1_q3;

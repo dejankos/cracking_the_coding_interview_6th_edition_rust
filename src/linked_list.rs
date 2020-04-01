@@ -20,6 +20,7 @@ pub trait List<T>
     fn add(&mut self, e: T);
     fn remove(&mut self, e: T);
     fn into_iter(&mut self) -> IntoIter<T>;
+    fn into_rev_iter(&mut self) -> IntoIter<T>;
     fn size(&self) -> u32;
 }
 
@@ -118,6 +119,10 @@ impl<T> List<T> for LinkedList<T>
         IntoIter { next: self.head.clone() }
     }
 
+    fn into_rev_iter(&mut self) -> IntoIter<T> {
+        IntoIter { next: self.tail.clone() }
+    }
+
     fn size(&self) -> u32 {
         self.size
     }
@@ -151,6 +156,19 @@ impl<T> Iterator for IntoIter<T> {
             }
             _ => None
         }
+    }
+}
+
+impl<T> DoubleEndedIterator for IntoIter<T>  {
+    fn next_back(&mut self) -> Option<Self::Item> {
+       match self.next.take() {
+           Some(current) => {
+               self.next = current.borrow().prev.clone();
+               Some(current)
+           }
+           _ => None
+       }
+
     }
 }
 
@@ -234,5 +252,20 @@ mod tests {
         assert_eq!(list.head.as_ref().unwrap().borrow().e, 1);
         assert_eq!(list.tail.as_ref().unwrap().borrow().e, 3);
         assert_eq!(list.size, 2);
+    }
+
+    #[test]
+    fn should_iter_from_tail() {
+        let mut list = LinkedList::new();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+
+        let mut rev_iter = list.into_rev_iter();
+
+        assert_eq!(rev_iter.next_back().as_ref().unwrap().borrow().e, 3);
+        assert_eq!(rev_iter.next_back().as_ref().unwrap().borrow().e, 2);
+        assert_eq!(rev_iter.next_back().as_ref().unwrap().borrow().e, 1);
+        assert!(rev_iter.next_back().take().is_none());
     }
 }

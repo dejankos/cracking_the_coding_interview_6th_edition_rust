@@ -41,12 +41,10 @@ fn sum(list1: &mut LinkedList<u32>, list2: &mut LinkedList<u32>) -> LinkedList<u
 // FOLLOW UP
 // Suppose the digits are stored in forward order. Repeat the above problem.
 //
-// This part is without reversing so it's easy to implement in same way (without reverse) - skipped
+// Same just without the rev iterator
 
 #[cfg(test)]
 mod tests {
-    use crate::linked_list::{LinkedList, List};
-
     use super::*;
 
     #[test]
