@@ -15,12 +15,9 @@
 use crate::linked_list::{LinkedList, List};
 
 fn to_number(list: &mut LinkedList<u32>) -> u32 {
-    list.into_iter()
-        .map(|rc| rc.borrow_mut().e.clone().to_string())
-        .collect::<String>()
-        .chars()
-        //can be simplified by implementing LL DoubleEndedIterator
+    list.into_rev_iter()
         .rev()
+        .map(|rc| rc.borrow_mut().e.clone().to_string())
         .collect::<String>()
         .parse::<u32>()
         .unwrap()

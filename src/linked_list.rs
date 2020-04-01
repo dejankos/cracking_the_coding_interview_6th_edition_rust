@@ -11,7 +11,7 @@ use std::fmt::{Display, Formatter};
 use std::iter::FromIterator;
 use std::rc::Rc;
 
-type Link<T> = Option<RcLink<T>>;
+pub type Link<T> = Option<RcLink<T>>;
 pub type RcLink<T> = Rc<RefCell<Node<T>>>;
 
 pub trait List<T>
@@ -26,14 +26,14 @@ pub trait List<T>
 
 pub struct Node<T> {
     pub e: T,
-    next: Link<T>,
-    prev: Link<T>,
+    pub next: Link<T>,
+    pub prev: Link<T>,
 }
 
 pub struct LinkedList<T> {
     head: Link<T>,
-    tail: Link<T>,
-    size: u32,
+    pub tail: Link<T>,
+    pub size: u32,
 }
 
 pub struct IntoIter<T> {
