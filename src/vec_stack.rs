@@ -2,12 +2,12 @@ use std::fmt::{Debug, Display, Formatter};
 use std::fmt;
 
 #[derive(Debug)]
-struct VecStack<T> {
+pub struct VecStack<T> {
     vec: Vec<T>
 }
 
 impl<T> VecStack<T>
-    where T: Copy + Debug
+    where T: Copy
 {
     pub fn new() -> Self {
         VecStack {
