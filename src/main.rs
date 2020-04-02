@@ -1,4 +1,5 @@
 mod linked_list;
+mod vec_stack;
 mod c2_q1;
 mod c2_q2;
 mod c2_q3;
