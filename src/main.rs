@@ -19,6 +19,7 @@ mod c1_q8;
 mod c1_q9;
 mod c5_q1;
 mod c3_q1;
+mod c3_q2;
 
 fn main() {}
 

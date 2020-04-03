@@ -1,25 +1,35 @@
 use std::fmt::{Debug, Display, Formatter};
 use std::fmt;
 
+pub trait Stack<T> {
+    fn new() -> Self;
+    fn push(&mut self, e: T);
+    fn peek(&mut self) -> Option<T>;
+    fn pop(&mut self) -> Option<T>;
+    fn size(&self) -> usize;
+    fn is_empty(&self) -> bool;
+}
+
+
 #[derive(Debug)]
 pub struct VecStack<T> {
     vec: Vec<T>
 }
 
-impl<T> VecStack<T>
+impl<T> Stack<T> for VecStack<T>
     where T: Copy
 {
-    pub fn new() -> Self {
+    fn new() -> Self {
         VecStack {
             vec: vec![],
         }
     }
 
-    pub fn push(&mut self, e: T) {
+    fn push(&mut self, e: T) {
         self.vec.push(e);
     }
 
-    pub fn peek(&mut self) -> Option<T> {
+    fn peek(&mut self) -> Option<T> {
         let len = self.vec.len();
         match len {
             0 => None,
@@ -27,15 +37,15 @@ impl<T> VecStack<T>
         }
     }
 
-    pub fn pop(&mut self) -> Option<T> {
+    fn pop(&mut self) -> Option<T> {
         self.vec.pop()
     }
 
-    pub fn size(&self) -> usize {
+    fn size(&self) -> usize {
         self.vec.len()
     }
 
-    pub fn is_empty(&self) -> bool {
+    fn is_empty(&self) -> bool {
         self.vec.len() == 0
     }
 }

@@ -1,6 +1,7 @@
 //Three in One: Describe how you could use a single array to implement three stacks.
 
 use crate::vec_stack::VecStack;
+use std::process::id;
 
 #[derive(Debug)]
 struct MemRegion {
@@ -62,9 +63,10 @@ impl<T> TripleStack<T> {
 
     pub fn pop(&mut self, stack: usize) -> Option<T> {
         let mem_reg = &mut self.regions[stack];
+        let idx = mem_reg.next_index - 1;
 
-        let e = self.triple[mem_reg.next_index - 1].take();
-        mem_reg.next_index = mem_reg.next_index - 1;
+        let e = self.triple[idx].take();
+        mem_reg.next_index = idx;
         e
     }
 
@@ -74,7 +76,6 @@ impl<T> TripleStack<T> {
         mem_reg.next_index - mem_reg.start
     }
 }
-
 
 #[cfg(test)]
 mod tests {
