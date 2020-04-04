@@ -10,31 +10,34 @@
 use crate::linked_list::{LinkedList, List, RcLink};
 
 trait Partition<T>: List<T>
-    where T: PartialEq + PartialOrd + Clone
+where
+    T: PartialEq + PartialOrd + Clone,
 {
     fn partition(&mut self, part_element: T) -> Self;
 
     fn part<F>(&mut self, filter: F) -> Self
-        where F: FnMut(&RcLink<T>) -> bool;
+    where
+        F: FnMut(&RcLink<T>) -> bool;
 }
 
 impl<T> Partition<T> for LinkedList<T>
-    where T: PartialEq + PartialOrd + Clone
+where
+    T: PartialEq + PartialOrd + Clone,
 {
     fn partition(&mut self, part_element: T) -> Self {
         self.part(|rc_ref| rc_ref.borrow().e < part_element)
             .into_iter()
             .chain(
-                self.part(
-                    |rc_ref| rc_ref.borrow().e >= part_element
-                ).into_iter()
+                self.part(|rc_ref| rc_ref.borrow().e >= part_element)
+                    .into_iter(),
             )
             .map(|rc| rc.borrow_mut().e.clone())
             .collect()
     }
 
     fn part<F>(&mut self, mut filter: F) -> Self
-        where F: FnMut(&RcLink<T>) -> bool
+    where
+        F: FnMut(&RcLink<T>) -> bool,
     {
         self.into_iter()
             .filter(|rc_ref| filter(rc_ref))

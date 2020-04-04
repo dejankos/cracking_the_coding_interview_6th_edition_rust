@@ -1,7 +1,6 @@
 //Stack Min: How would you design a stack which, in addition to push and pop, has a function min
 //which returns the minimum element? Push, pop and min should all operate in 0(1) time.
 
-
 use std::cmp::min;
 use std::f32::MAX;
 
@@ -17,13 +16,12 @@ impl Min {
     fn curr_min(&mut self) -> usize {
         match self.min.peek() {
             Some(v) => v,
-            _ => usize::max_value()
+            _ => usize::max_value(),
         }
     }
 }
 
-impl Stack<usize> for Min
-{
+impl Stack<usize> for Min {
     fn new() -> Self {
         Min {
             min: VecStack::new(),

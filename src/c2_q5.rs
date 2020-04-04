@@ -11,7 +11,6 @@
 // Input:(6 -> 1 -> 7) + (2 -> 9 -> 5).That is,617 + 295.
 // Output: 9 -> 1 -> 2. That is, 912.
 
-
 use crate::linked_list::{LinkedList, List};
 
 fn to_number(list: &mut LinkedList<u32>) -> u32 {
@@ -61,7 +60,8 @@ mod tests {
 
     #[test]
     fn should_sum_lists_reversed() {
-        let (mut list1, mut list2): (LinkedList<u32>, LinkedList<u32>) = (LinkedList::new(), LinkedList::new());
+        let (mut list1, mut list2): (LinkedList<u32>, LinkedList<u32>) =
+            (LinkedList::new(), LinkedList::new());
         list1.add(7);
         list1.add(1);
         list1.add(6);

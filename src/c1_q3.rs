@@ -10,7 +10,6 @@
 const DELIMITER: &str = "%20";
 const WHITE_SPACE: char = ' ';
 
-
 fn replace(s: &str) -> String {
     s.trim_end().replace(WHITE_SPACE, DELIMITER) // that was easy =)
 }
@@ -22,8 +21,8 @@ fn replace_2(s: &str) -> String {
     for c in s.chars() {
         match c {
             WHITE_SPACE if c_prev == WHITE_SPACE => break,
-            WHITE_SPACE => mut_state(c, &mut c_prev, || { s_mut.push_str(DELIMITER) }),
-            _ => mut_state(c, &mut c_prev, || { s_mut.push(c) })
+            WHITE_SPACE => mut_state(c, &mut c_prev, || s_mut.push_str(DELIMITER)),
+            _ => mut_state(c, &mut c_prev, || s_mut.push(c)),
         }
     }
 
@@ -46,8 +45,8 @@ fn replace_3(s: &str) -> String {
 }
 
 fn mut_state<F>(c: char, c_prev: &mut char, mut f: F)
-    where
-        F: FnMut() -> ()
+where
+    F: FnMut() -> (),
 {
     f();
     *c_prev = c;

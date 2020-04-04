@@ -5,7 +5,6 @@
 // Input:the node c from the linked list a->b->c->d->e->f
 // Result: nothing is returned, but the new linked list looks like a->b->d->e- >f
 
-
 // Got this one for free as I've implemented it in the base Linked List implementation
 // check remove impl at  src/linked_list.rs:19
 

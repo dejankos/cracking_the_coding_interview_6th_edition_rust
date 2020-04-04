@@ -1,5 +1,5 @@
-use std::fmt::{Debug, Display, Formatter};
 use std::fmt;
+use std::fmt::{Debug, Display, Formatter};
 
 pub trait Stack<T> {
     fn new() -> Self;
@@ -10,19 +10,17 @@ pub trait Stack<T> {
     fn is_empty(&self) -> bool;
 }
 
-
 #[derive(Debug)]
 pub struct VecStack<T> {
-    vec: Vec<T>
+    vec: Vec<T>,
 }
 
 impl<T> Stack<T> for VecStack<T>
-    where T: Copy
+where
+    T: Copy,
 {
     fn new() -> Self {
-        VecStack {
-            vec: vec![],
-        }
+        VecStack { vec: vec![] }
     }
 
     fn push(&mut self, e: T) {
@@ -33,7 +31,7 @@ impl<T> Stack<T> for VecStack<T>
         let len = self.vec.len();
         match len {
             0 => None,
-            _ => Some(self.vec[len - 1])
+            _ => Some(self.vec[len - 1]),
         }
     }
 
@@ -52,7 +50,8 @@ impl<T> Stack<T> for VecStack<T>
 
 #[allow(unused_must_use)]
 impl<T: Display> Display for VecStack<T>
-    where T: Debug
+where
+    T: Debug,
 {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         write!(f, "{:?}", self.vec)

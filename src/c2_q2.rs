@@ -3,16 +3,19 @@
 use crate::linked_list::{LinkedList, List, RcLink};
 
 trait KtoLast<T>: List<T>
-    where T: std::cmp::PartialEq + Clone
+where
+    T: std::cmp::PartialEq + Clone,
 {
     fn k_to_last(&mut self, k: usize) -> Self;
 }
 
 impl<T> KtoLast<T> for LinkedList<T>
-    where T: std::cmp::PartialEq + Clone
+where
+    T: std::cmp::PartialEq + Clone,
 {
     fn k_to_last(&mut self, k: usize) -> Self {
-        self.into_iter().skip(k) // since I've written Iterator for LL why not use it
+        self.into_iter()
+            .skip(k) // since I've written Iterator for LL why not use it
             .collect::<Vec<RcLink<T>>>()
             .into_iter()
             .map(|rc| rc.borrow_mut().e.clone())

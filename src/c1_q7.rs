@@ -20,7 +20,6 @@ fn _rotate_in_place(_img: &mut Image) -> &Image {
     unimplemented!()
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;

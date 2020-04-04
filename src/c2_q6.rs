@@ -3,13 +3,15 @@
 use crate::linked_list::{LinkedList, List};
 
 trait Palindrome<T>: List<T>
-    where T: PartialEq
+where
+    T: PartialEq,
 {
     fn is_palindrome(&mut self) -> bool;
 }
 
 impl<T> Palindrome<T> for LinkedList<T>
-    where T: PartialEq
+where
+    T: PartialEq,
 {
     fn is_palindrome(&mut self) -> bool {
         self.into_iter()

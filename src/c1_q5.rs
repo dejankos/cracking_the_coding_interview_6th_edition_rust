@@ -45,13 +45,21 @@ fn get_ordered<'a>(s1: &'a str, s2: &'a str) -> (&'a str, &'a str) {
         return (s1, s2);
     }
 
-    return (get(|| { s1.len() < s2.len() }, s1, s2), get(|| { s1.len() > s2.len() }, s1, s2));
+    return (
+        get(|| s1.len() < s2.len(), s1, s2),
+        get(|| s1.len() > s2.len(), s1, s2),
+    );
 }
 
 fn get<'a, F>(f: F, s1: &'a str, s2: &'a str) -> &'a str
-    where F: Fn() -> bool
+where
+    F: Fn() -> bool,
 {
-    if f() { s1 } else { s2 }
+    if f() {
+        s1
+    } else {
+        s2
+    }
 }
 
 #[cfg(test)]
@@ -69,6 +77,12 @@ mod tests {
     #[test]
     fn should_not_be_one_away() {
         assert_eq!(is_one_away("pale", "bake"), false);
-        assert_eq!(is_one_away("Zero hour nine AM", "And I'm gonna be high as a kite by then"), false);
+        assert_eq!(
+            is_one_away(
+                "Zero hour nine AM",
+                "And I'm gonna be high as a kite by then"
+            ),
+            false
+        );
     }
 }

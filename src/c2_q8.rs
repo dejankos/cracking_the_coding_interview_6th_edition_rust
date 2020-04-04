@@ -16,13 +16,15 @@ use std::rc::Rc;
 use crate::linked_list::{Link, LinkedList, List, Node, RcLink};
 
 trait LoopDetection<T>: List<T>
-    where T: PartialEq
+where
+    T: PartialEq,
 {
     fn find_loop_node(&mut self) -> Link<T>;
 }
 
 impl<T> LoopDetection<T> for LinkedList<T>
-    where T: PartialEq + Display
+where
+    T: PartialEq + Display,
 {
     fn find_loop_node(&mut self) -> Link<T> {
         // fast and slow aka tortoise and hare
@@ -69,20 +71,14 @@ mod tests {
     #[test]
     fn should_be_circular() {
         let mut c_node = Node::new('C');
-        let circular_linked_nodes =
-            Node::new_(
-                'D',
-                Some(Node::new_('E', Some(c_node.clone()))),
-            );
+        let circular_linked_nodes = Node::new_('D', Some(Node::new_('E', Some(c_node.clone()))));
         c_node.borrow_mut().next = Some(circular_linked_nodes);
 
         let mut list = LinkedList::new();
         list.add('A');
         list.add('B');
 
-
         list.add_node(Some(c_node));
-
 
         assert_eq!('C', list.find_loop_node().unwrap().borrow_mut().e);
     }

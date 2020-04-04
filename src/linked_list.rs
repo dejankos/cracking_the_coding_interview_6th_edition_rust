@@ -15,7 +15,8 @@ pub type Link<T> = Option<RcLink<T>>;
 pub type RcLink<T> = Rc<RefCell<Node<T>>>;
 
 pub trait List<T>
-    where T: PartialEq
+where
+    T: PartialEq,
 {
     fn add(&mut self, e: T);
     fn remove(&mut self, e: T);
@@ -25,7 +26,8 @@ pub trait List<T>
 }
 
 pub trait SinglyLinkedReferenceExtension<T>: List<T>
-    where T: PartialEq
+where
+    T: PartialEq,
 {
     fn add_node(&mut self, node: Link<T>);
 }
@@ -43,7 +45,7 @@ pub struct LinkedList<T> {
 }
 
 pub struct IntoIter<T> {
-    next: Option<RcLink<T>>
+    next: Option<RcLink<T>>,
 }
 
 impl<T> Node<T> {
@@ -96,12 +98,17 @@ impl<T> Node<T> {
 
 impl<T> LinkedList<T> {
     pub fn new() -> Self {
-        Self { head: None, tail: None, size: 0 }
+        Self {
+            head: None,
+            tail: None,
+            size: 0,
+        }
     }
 }
 
 impl<T> List<T> for LinkedList<T>
-    where T: PartialEq
+where
+    T: PartialEq,
 {
     fn add(&mut self, e: T) {
         let new_node = Node::new(e);
@@ -130,11 +137,15 @@ impl<T> List<T> for LinkedList<T>
     }
 
     fn into_iter(&mut self) -> IntoIter<T> {
-        IntoIter { next: self.head.clone() }
+        IntoIter {
+            next: self.head.clone(),
+        }
     }
 
     fn into_rev_iter(&mut self) -> IntoIter<T> {
-        IntoIter { next: self.tail.clone() }
+        IntoIter {
+            next: self.tail.clone(),
+        }
     }
 
     fn size(&self) -> u32 {
@@ -168,7 +179,7 @@ impl<T> Iterator for IntoIter<T> {
                 self.next = current.borrow().next.clone();
                 Some(current)
             }
-            _ => None
+            _ => None,
         }
     }
 }
@@ -180,15 +191,16 @@ impl<T> DoubleEndedIterator for IntoIter<T> {
                 self.next = current.borrow().prev.clone();
                 Some(current)
             }
-            _ => None
+            _ => None,
         }
     }
 }
 
 impl<A> FromIterator<A> for LinkedList<A>
-    where A: PartialEq
+where
+    A: PartialEq,
 {
-    fn from_iter<T: IntoIterator<Item=A>>(iter: T) -> Self {
+    fn from_iter<T: IntoIterator<Item = A>>(iter: T) -> Self {
         let mut list = LinkedList::new();
         for i in iter {
             list.add(i);
@@ -199,14 +211,15 @@ impl<A> FromIterator<A> for LinkedList<A>
 }
 
 impl<T> SinglyLinkedReferenceExtension<T> for LinkedList<T>
-    where T: PartialEq
+where
+    T: PartialEq,
 {
     fn add_node(&mut self, link: Link<T>) {
         match self.tail.take() {
             Some(tail) => {
                 tail.borrow_mut().next = link.clone();
             }
-            _ => panic!("Doesn't support empty!")
+            _ => panic!("Doesn't support empty!"),
         }
 
         // Since it's a singly linked list I'll not fix tail reference here or prev reference.

@@ -29,7 +29,6 @@ fn write_zero(matrix: &mut Matrix) -> &Matrix {
         }
     }
 
-
     matrix
 }
 

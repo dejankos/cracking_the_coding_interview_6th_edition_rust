@@ -3,7 +3,6 @@
 //"compressed" string would not become smaller than the original string, your method should return
 //the original string. You can assume the string has only uppercase and lowercase letters (a - z).
 
-
 fn compress(s: &str) -> String {
     if s.len() == 1 {
         return String::from(s);
@@ -33,7 +32,6 @@ fn compress(s: &str) -> String {
 
     compressed
 }
-
 
 #[cfg(test)]
 mod tests {

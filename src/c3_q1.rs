@@ -11,8 +11,7 @@ struct MemRegion {
 }
 
 #[derive(Debug)]
-struct TripleStack<T>
-{
+struct TripleStack<T> {
     triple: Vec<Option<T>>,
     regions: Vec<MemRegion>,
 }
@@ -39,7 +38,7 @@ impl<T> TripleStack<T> {
                     start: ((size / 3) * 2) + 1,
                     end: size,
                     next_index: ((size / 3) * 2) + 1,
-                }
+                },
             ],
         }
     }
@@ -130,5 +129,4 @@ mod tests {
         assert_eq!(2, t_stack.size(1));
         assert_eq!(2, t_stack.size(2));
     }
-
 }

@@ -3,7 +3,6 @@
 // node of the first linked list is the exact same node (by reference) as the jth node of the second
 // linked list, then they are intersecting.
 
-
 use std::rc::Rc;
 
 use crate::linked_list::{Link, LinkedList, List};
@@ -23,7 +22,7 @@ mod tests {
     use std::cell::RefCell;
     use std::rc::Rc;
 
-    use crate::linked_list::{LinkedList, List, SinglyLinkedReferenceExtension, Node};
+    use crate::linked_list::{LinkedList, List, Node, SinglyLinkedReferenceExtension};
 
     use super::*;
 
@@ -35,7 +34,8 @@ mod tests {
             next: None,
         }));
 
-        let (mut list1, mut list2): (LinkedList<u32>, LinkedList<u32>) = (LinkedList::new(), LinkedList::new());
+        let (mut list1, mut list2): (LinkedList<u32>, LinkedList<u32>) =
+            (LinkedList::new(), LinkedList::new());
         list1.add(1);
         list1.add(2);
         list1.add(1);
@@ -46,11 +46,16 @@ mod tests {
         list2.add(1);
         list2.add_node(Some(node.clone()));
 
-
         //https://doc.rust-lang.org/std/rc/struct.Rc.html#method.ptr_eq
         assert!(Rc::ptr_eq(&node.clone(), &node.clone()));
 
-        assert_eq!(100, intersection_node(&mut list1, &mut list2).unwrap().borrow_mut().e)
+        assert_eq!(
+            100,
+            intersection_node(&mut list1, &mut list2)
+                .unwrap()
+                .borrow_mut()
+                .e
+        )
     }
 
     #[test]
@@ -67,7 +72,8 @@ mod tests {
             next: None,
         }));
 
-        let (mut list1, mut list2): (LinkedList<u32>, LinkedList<u32>) = (LinkedList::new(), LinkedList::new());
+        let (mut list1, mut list2): (LinkedList<u32>, LinkedList<u32>) =
+            (LinkedList::new(), LinkedList::new());
         list1.add(1);
         list1.add(2);
         list1.add(1);

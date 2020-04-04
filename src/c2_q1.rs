@@ -1,18 +1,20 @@
 // Remove Dups! Write code to remove duplicates from an unsorted linked list.
 // How would you solve this problem if a temporary buffer is not allowed?
 
-use crate::linked_list::{List, LinkedList};
+use crate::linked_list::{LinkedList, List};
 use std::collections::HashSet;
 use std::hash::Hash;
 
 trait Duplicates<T>: List<T>
-    where T: PartialEq + Eq + Hash + Copy
+where
+    T: PartialEq + Eq + Hash + Copy,
 {
     fn remove_duplicates(&mut self);
 }
 
 impl<T> Duplicates<T> for LinkedList<T>
-    where T: PartialEq + Eq + Hash + Copy
+where
+    T: PartialEq + Eq + Hash + Copy,
 {
     fn remove_duplicates(&mut self) {
         let mut h_set = HashSet::new();
@@ -27,7 +29,6 @@ impl<T> Duplicates<T> for LinkedList<T>
         }
     }
 }
-
 
 #[cfg(test)]
 mod tests {

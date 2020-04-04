@@ -31,7 +31,6 @@ fn is_palindrome_permutation(s: &str) -> bool {
     odd_count <= 1
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -43,6 +42,9 @@ mod tests {
 
     #[test]
     fn should_not_be_a_palindrome_permutation() {
-        assert_eq!(is_palindrome_permutation("She packed my bags last night pre-flight..."), false);
+        assert_eq!(
+            is_palindrome_permutation("She packed my bags last night pre-flight..."),
+            false
+        );
     }
 }
