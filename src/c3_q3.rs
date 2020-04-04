@@ -90,8 +90,7 @@ where
     }
 
     fn size(&self) -> usize {
-        let as_ref = &self.stacks;
-        as_ref.into_iter().map(|s| s.size()).sum()
+        self.stacks.iter().map(|s| s.size()).sum()
     }
 
     fn is_empty(&self) -> bool {
