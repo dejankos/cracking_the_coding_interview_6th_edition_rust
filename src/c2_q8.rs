@@ -28,7 +28,7 @@ where
 {
     fn find_loop_node(&mut self) -> Link<T> {
         // fast and slow aka tortoise and hare
-        let (mut s_iter, mut f_iter) = (self.into_iter(), self.into_iter().skip(3).step_by(2));
+        let (mut s_iter, f_iter) = (self.into_iter(), self.into_iter().skip(3).step_by(2));
 
         for (s, f) in s_iter.zip(f_iter) {
             if Rc::ptr_eq(&s, &f) {
