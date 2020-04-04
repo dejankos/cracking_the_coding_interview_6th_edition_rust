@@ -19,6 +19,7 @@ mod c3_q1;
 mod c3_q2;
 mod c3_q3;
 mod c3_q4;
+mod c3_q5;
 mod c5_q1;
 mod linked_list;
 mod vec_stack;
