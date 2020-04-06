@@ -1,32 +1,28 @@
 use std::cell::RefCell;
 use std::collections::{HashSet, VecDeque};
-use std::fmt::{Display, Formatter, Debug};
 use std::fmt;
+use std::fmt::{Debug, Display, Formatter};
 use std::hash::Hash;
 use std::rc::Rc;
 
 type RcVertex<T> = Rc<RefCell<Vertex<T>>>;
 
-struct Graph<T>
-{
-    nodes: Vec<RcVertex<T>>
+struct Graph<T> {
+    nodes: Vec<RcVertex<T>>,
 }
 
-struct Vertex<T>
-{
+struct Vertex<T> {
     v: T,
     adj_vertices: Vec<RcVertex<T>>,
     visited: bool,
 }
 
-
 impl<T> Graph<T>
-where T: Debug
+where
+    T: Debug,
 {
     fn new() -> Self {
-        Graph {
-            nodes: vec![]
-        }
+        Graph { nodes: vec![] }
     }
 
     fn add_vertex(&mut self, v: RcVertex<T>) {
@@ -41,7 +37,7 @@ where T: Debug
         while let Some(rc) = deq.pop_front() {
             println!("Visit {:?}", rc.borrow().v);
 
-            for v in rc.borrow().adj_vertices.clone(){
+            for v in rc.borrow().adj_vertices.clone() {
                 if !v.borrow().visited {
                     v.borrow_mut().visited = true;
                     deq.push_back(v.clone());
@@ -55,22 +51,17 @@ where T: Debug
 
 impl<T> Vertex<T> {
     fn new(v: T) -> RcVertex<T> {
-        Rc::new(
-            RefCell::new(
-                Vertex {
-                    v,
-                    adj_vertices: vec![],
-                    visited: false
-                }
-            )
-        )
+        Rc::new(RefCell::new(Vertex {
+            v,
+            adj_vertices: vec![],
+            visited: false,
+        }))
     }
 
     fn add_vertices(&mut self, v: RcVertex<T>) {
         self.adj_vertices.push(v)
     }
 }
-
 
 #[allow(unused_must_use)]
 impl<T: Display> Display for Graph<T> {
