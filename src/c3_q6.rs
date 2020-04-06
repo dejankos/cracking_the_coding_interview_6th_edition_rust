@@ -6,7 +6,7 @@
 // and dequeueCat.
 // You may use the built-in Linkedlist data structure.
 
-// The book is with Java examples that's why (I guess) they have LL in mind, but I'll use VecDeque since it has a lot of API's in common with Java List Interface.
+// The book is with Java examples that's why (I guess) they have LL in mind, but I'll use VecDeque
 
 use std::collections::VecDeque;
 

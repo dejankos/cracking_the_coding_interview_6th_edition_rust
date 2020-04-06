@@ -24,5 +24,7 @@ mod c3_q6;
 mod c5_q1;
 mod linked_list;
 mod vec_stack;
+mod graph;
+mod tree;
 
 fn main() {}
