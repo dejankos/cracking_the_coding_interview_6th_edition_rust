@@ -5,13 +5,13 @@ use std::fmt::{Debug, Display, Formatter};
 use std::hash::Hash;
 use std::rc::Rc;
 
-type RcVertex<T> = Rc<RefCell<Vertex<T>>>;
+pub type RcVertex<T> = Rc<RefCell<Vertex<T>>>;
 
-struct Graph<T> {
+pub struct Graph<T> {
     nodes: Vec<RcVertex<T>>,
 }
 
-struct Vertex<T> {
+pub struct Vertex<T> {
     v: T,
     adj_vertices: Vec<RcVertex<T>>,
     visited: bool,
@@ -21,36 +21,36 @@ impl<T> Graph<T>
 where
     T: Debug,
 {
-    fn new() -> Self {
+    pub fn new() -> Self {
         Graph { nodes: vec![] }
     }
 
-    fn add_vertex(&mut self, v: RcVertex<T>) {
+    pub fn add_vertex(&mut self, v: RcVertex<T>) {
         self.nodes.push(v)
     }
 
-    fn bfs(&mut self, v: RcVertex<T>) {
+    pub fn bfs(&mut self, v: RcVertex<T>) -> Vec<RcVertex<T>> {
         let mut deq = VecDeque::new();
+        let mut visited = Vec::new();
         v.borrow_mut().visited = true;
         deq.push_back(v.clone());
 
         while let Some(rc) = deq.pop_front() {
-            println!("Visit {:?}", rc.borrow().v);
-
-            for v in rc.borrow().adj_vertices.clone() {
-                if !v.borrow().visited {
-                    v.borrow_mut().visited = true;
-                    deq.push_back(v.clone());
+            visited.push(rc.clone());
+            rc.borrow().adj_vertices.clone().iter().for_each(|rc| {
+                if !rc.borrow().visited {
+                    rc.borrow_mut().visited = true;
+                    deq.push_back(rc.clone());
                 }
-            }
+            });
         }
 
-        println!("LEN {}", deq.len())
+        visited
     }
 }
 
 impl<T> Vertex<T> {
-    fn new(v: T) -> RcVertex<T> {
+    pub fn new(v: T) -> RcVertex<T> {
         Rc::new(RefCell::new(Vertex {
             v,
             adj_vertices: vec![],
@@ -58,7 +58,7 @@ impl<T> Vertex<T> {
         }))
     }
 
-    fn add_vertices(&mut self, v: RcVertex<T>) {
+    pub fn add_vertices(&mut self, v: RcVertex<T>) {
         self.adj_vertices.push(v)
     }
 }
@@ -78,6 +78,10 @@ impl<T: Display> Display for Graph<T> {
     }
 }
 
+pub fn contains<T>(v: &Vec<RcVertex<T>>, rc: RcVertex<T>) -> bool {
+    v.iter().find(|v| Rc::ptr_eq(v, &rc)).is_some()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -91,11 +95,9 @@ mod tests {
         let v_c = Vertex::new('c');
         let v_d = Vertex::new('d');
         let v_e = Vertex::new('e');
-        let v_f = Vertex::new('f');
 
         v_a.borrow_mut().add_vertices(v_b.clone());
         v_a.borrow_mut().add_vertices(v_e.clone());
-        v_a.borrow_mut().add_vertices(v_f.clone());
         v_b.borrow_mut().add_vertices(v_c.clone());
         v_c.borrow_mut().add_vertices(v_d.clone());
 
@@ -103,9 +105,62 @@ mod tests {
         g.add_vertex(v_b.clone());
         g.add_vertex(v_c.clone());
         g.add_vertex(v_d.clone());
+        g.add_vertex(v_e.clone());
 
-        println!("{}", g);
+        let expected = " a:  b,  e, \n b:  c, \n c:  d, \n d: \n e: \n";
+        assert_eq!(expected, format!("{}", g))
+    }
 
-        g.bfs(v_a);
+    #[test]
+    fn should_have_a_path() {
+        let mut g = Graph::new();
+
+        let v_a = Vertex::new('a');
+        let v_b = Vertex::new('b');
+        let v_c = Vertex::new('c');
+        let v_d = Vertex::new('d');
+        let v_e = Vertex::new('e');
+
+        v_a.borrow_mut().add_vertices(v_b.clone());
+        v_a.borrow_mut().add_vertices(v_e.clone());
+        v_b.borrow_mut().add_vertices(v_c.clone());
+        v_c.borrow_mut().add_vertices(v_d.clone());
+
+        g.add_vertex(v_a.clone());
+        g.add_vertex(v_b.clone());
+        g.add_vertex(v_c.clone());
+        g.add_vertex(v_d.clone());
+        g.add_vertex(v_e.clone());
+
+        let path = g.bfs(v_c.clone());
+
+        assert!(contains(&path, v_c.clone()));
+        assert!(contains(&path, v_d.clone()));
+    }
+
+    #[test]
+    fn should_not_have_a_path() {
+        let mut g = Graph::new();
+
+        let v_a = Vertex::new('a');
+        let v_b = Vertex::new('b');
+        let v_c = Vertex::new('c');
+        let v_d = Vertex::new('d');
+        let v_e = Vertex::new('e');
+
+        v_a.borrow_mut().add_vertices(v_b.clone());
+        v_a.borrow_mut().add_vertices(v_e.clone());
+        v_b.borrow_mut().add_vertices(v_c.clone());
+        v_c.borrow_mut().add_vertices(v_d.clone());
+
+        g.add_vertex(v_a.clone());
+        g.add_vertex(v_b.clone());
+        g.add_vertex(v_c.clone());
+        g.add_vertex(v_d.clone());
+        g.add_vertex(v_e.clone());
+
+        let path = g.bfs(v_b.clone());
+
+        assert!(!contains(&path, v_a.clone()));
     }
 }
