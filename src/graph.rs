@@ -8,13 +8,13 @@ use std::rc::Rc;
 pub type RcVertex<T> = Rc<RefCell<Vertex<T>>>;
 
 pub struct Graph<T> {
-    nodes: Vec<RcVertex<T>>,
+    pub nodes: Vec<RcVertex<T>>,
 }
 
 pub struct Vertex<T> {
-    v: T,
-    adj_vertices: Vec<RcVertex<T>>,
-    visited: bool,
+    pub v: T,
+    pub adj_vertices: Vec<RcVertex<T>>,
+    pub visited: bool,
 }
 
 impl<T> Graph<T>

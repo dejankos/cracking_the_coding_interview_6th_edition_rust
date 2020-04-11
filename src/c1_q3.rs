@@ -21,7 +21,6 @@ fn replace_2(s: &str) -> String {
     for (i, s) in split.iter().enumerate() {
         res.push_str(s);
 
-
         if i < split.len() - 1 {
             res.push_str(DELIMITER);
         }
