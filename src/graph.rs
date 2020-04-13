@@ -2,7 +2,6 @@ use std::cell::RefCell;
 use std::collections::{HashSet, VecDeque};
 use std::fmt;
 use std::fmt::{Debug, Display, Formatter};
-use std::hash::Hash;
 use std::rc::Rc;
 
 pub type RcVertex<T> = Rc<RefCell<Vertex<T>>>;
@@ -160,7 +159,6 @@ mod tests {
         g.add_vertex(v_e.clone());
 
         let path = g.bfs(v_b.clone());
-
         assert!(!contains(&path, v_a.clone()));
     }
 }

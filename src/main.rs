@@ -1,3 +1,4 @@
+mod bst;
 mod c1_q1;
 mod c1_q2;
 mod c1_q3;
@@ -26,7 +27,6 @@ mod c4_q7;
 mod c5_q1;
 mod graph;
 mod linked_list;
-mod tree;
 mod vec_stack;
 
 fn main() {}
