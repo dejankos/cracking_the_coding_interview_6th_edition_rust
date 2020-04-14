@@ -34,5 +34,6 @@ mod tests {
 
         let tree = build_min_height(&s_arr);
         assert_eq!(s_arr.to_vec(), tree.in_order_traversal());
+        assert_eq!(4, tree.height());
     }
 }

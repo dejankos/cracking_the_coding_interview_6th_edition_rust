@@ -1,8 +1,9 @@
 use std::cell::{RefCell, RefMut};
-use std::fmt;
+use std::cmp::max;
 use std::fmt::{Debug, Display, Formatter};
 use std::ops::Deref;
 use std::rc::Rc;
+use std::{cmp, fmt};
 
 type Link<T> = Rc<RefCell<Node<T>>>;
 
@@ -77,6 +78,26 @@ where
         if let Some(ref right) = node.borrow().right {
             self.r_in_order_traversal(right, vec);
         }
+    }
+
+    pub fn height(&self) -> usize {
+        if let Some(r) = &self.root {
+            self.r_height(r)
+        } else {
+            0
+        }
+    }
+
+    fn r_height(&self, node: &Link<T>) -> usize {
+        let (mut lh, mut rh) = (0, 0);
+        if let Some(ref left) = node.borrow().left {
+            lh = self.r_height(left);
+        }
+        if let Some(ref right) = node.borrow().right {
+            rh = self.r_height(right);
+        }
+
+        max(lh, rh) + 1
     }
 }
 
