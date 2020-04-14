@@ -23,6 +23,7 @@ mod c3_q4;
 mod c3_q5;
 mod c3_q6;
 mod c4_q1;
+mod c4_q2;
 mod c4_q7;
 mod c5_q1;
 mod graph;

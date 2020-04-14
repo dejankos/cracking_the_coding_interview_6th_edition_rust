@@ -1,12 +1,12 @@
 use std::cell::{RefCell, RefMut};
-use std::fmt::{Debug, Display, Formatter};
 use std::fmt;
+use std::fmt::{Debug, Display, Formatter};
 use std::ops::Deref;
 use std::rc::Rc;
 
 type Link<T> = Rc<RefCell<Node<T>>>;
 
-struct Tree<T> {
+pub struct Tree<T> {
     root: Option<Link<T>>,
 }
 
@@ -17,8 +17,8 @@ struct Node<T> {
 }
 
 impl<T> Tree<T>
-    where
-        T: PartialOrd + Debug + Copy,
+where
+    T: PartialOrd + Debug + Copy,
 {
     pub fn new() -> Self {
         Tree { root: None }
@@ -33,7 +33,6 @@ impl<T> Tree<T>
 
         if let Some(ref r) = self.root {
             let mut current = r.clone();
-
             loop {
                 // left
                 if node.borrow().data < current.clone().borrow().data {
@@ -42,7 +41,7 @@ impl<T> Tree<T>
                         current = l;
                     } else {
                         current.borrow_mut().left = Some(node.clone());
-                        break; // node inserted on the left
+                        break;
                     }
                 }
                 // right
@@ -52,7 +51,7 @@ impl<T> Tree<T>
                         current = r;
                     } else {
                         current.borrow_mut().right = Some(node.clone());
-                        break; // node inserted on the left
+                        break;
                     }
                 }
             }
@@ -71,11 +70,11 @@ impl<T> Tree<T>
     }
 
     fn r_in_order_traversal(&self, node: &Link<T>, vec: &mut Vec<T>) {
-        if let Some(left) = node.borrow().left.as_ref() {
+        if let Some(ref left) = node.borrow().left {
             self.r_in_order_traversal(left, vec);
         }
         vec.push(node.borrow().data);
-        if let Some(right) = node.borrow().right.as_ref() {
+        if let Some(ref right) = node.borrow().right {
             self.r_in_order_traversal(right, vec);
         }
     }
@@ -83,7 +82,8 @@ impl<T> Tree<T>
 
 #[allow(unused_must_use)]
 impl<T: Display> Display for Tree<T>
-    where T: PartialOrd + Debug + Copy,
+where
+    T: PartialOrd + Debug + Copy,
 {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         write!(f, "{:?}", self.in_order_traversal())
@@ -101,8 +101,9 @@ mod tests {
         tree.insert(3);
         tree.insert(4);
         tree.insert(6);
+        tree.insert(2);
 
         let res = tree.in_order_traversal();
-        assert_eq!(vec![3, 4, 5, 6], res);
+        assert_eq!(vec![2, 3, 4, 5, 6], res);
     }
 }
