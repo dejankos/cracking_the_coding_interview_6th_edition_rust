@@ -1,20 +1,20 @@
-use std::cell::{RefCell, RefMut};
+use std::cell::RefCell;
 use std::cmp::max;
 use std::fmt::{Debug, Display, Formatter};
 use std::ops::Deref;
 use std::rc::Rc;
 use std::{cmp, fmt};
 
-type Link<T> = Rc<RefCell<Node<T>>>;
+pub type Link<T> = Rc<RefCell<Node<T>>>;
 
 pub struct Tree<T> {
-    root: Option<Link<T>>,
+    pub root: Option<Link<T>>,
 }
 
-struct Node<T> {
-    data: T,
-    left: Option<Link<T>>,
-    right: Option<Link<T>>,
+pub struct Node<T> {
+    pub data: T,
+    pub left: Option<Link<T>>,
+    pub right: Option<Link<T>>,
 }
 
 impl<T> Tree<T>
