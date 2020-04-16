@@ -18,8 +18,6 @@ fn r_pre_order_traversal(
     depth_vec: &mut Vec<Option<Vec<usize>>>,
     depth: usize,
 ) {
-    println!("{}", node.borrow().data);
-
     if depth == depth_vec.len() {
         depth_vec.push(Some(vec![node.borrow().data]))
     } else if let Some(v) = depth_vec[depth].as_mut() {

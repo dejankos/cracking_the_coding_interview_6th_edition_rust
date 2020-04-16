@@ -88,7 +88,7 @@ where
         }
     }
 
-    fn r_height(&self, node: &Link<T>) -> usize {
+    pub fn r_height(&self, node: &Link<T>) -> usize {
         let (mut lh, mut rh) = (0, 0);
         if let Some(ref left) = node.borrow().left {
             lh = self.r_height(left);
