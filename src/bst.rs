@@ -61,6 +61,13 @@ where
         }
     }
 
+    pub fn build_from(&mut self, node: Link<T>) {
+        if self.root.is_some() {
+            panic!("Root should be empty!")
+        }
+        self.root = Some(node)
+    }
+
     pub fn in_order_traversal(&self) -> Vec<T> {
         let mut vec = vec![];
         if let Some(r) = &self.root {

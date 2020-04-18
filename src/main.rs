@@ -26,6 +26,7 @@ mod c4_q1;
 mod c4_q2;
 mod c4_q3;
 mod c4_q4;
+mod c4_q5;
 mod c4_q7;
 mod c5_q1;
 mod graph;
