@@ -106,6 +106,51 @@ where
 
         max(lh, rh) + 1
     }
+
+    pub fn min(&self) -> Option<T> {
+        if let Some(r) = &self.root {
+            return self.min_from(r);
+        }
+
+        None
+    }
+
+    pub fn min_from(&self, node: &Link<T>) -> Option<T> {
+        if let Some(ref left) = node.borrow().left {
+            return self.min_from(left);
+        }
+
+        Some(node.borrow().data)
+    }
+
+    pub fn find_node(&self, n_val: T) -> Option<Link<T>> {
+        if let Some(r) = &self.root {
+            return self.r_find_node(n_val, r);
+        }
+
+        None
+    }
+
+    pub fn r_find_node(&self, n_val: T, node: &Link<T>) -> Option<Link<T>> {
+        if n_val == node.borrow().data {
+            return Some(node.clone());
+        }
+
+        if n_val < node.borrow().data {
+            if let Some(ref left) = node.borrow().left {
+                return self.r_find_node(n_val, left);
+            }
+        } else {
+            if let Some(ref right) = node.borrow().right {
+                return self.r_find_node(n_val, right);
+            }
+        }
+        None
+    }
+
+    pub fn root(&self) -> Option<Link<T>> {
+        self.root.clone()
+    }
 }
 
 #[allow(unused_must_use)]
@@ -133,5 +178,55 @@ mod tests {
 
         let res = tree.in_order_traversal();
         assert_eq!(vec![2, 3, 4, 5, 6], res);
+    }
+
+    #[test]
+    fn should_find_min() {
+        let mut tree = Tree::new();
+        tree.insert(5);
+        tree.insert(3);
+        tree.insert(4);
+        tree.insert(6);
+        tree.insert(2);
+
+        let res = tree.min();
+        assert!(res.is_some());
+        assert_eq!(2, res.unwrap());
+    }
+
+    #[test]
+    fn should_find_node() {
+        let mut tree = Tree::new();
+        tree.insert(5);
+        tree.insert(3);
+        tree.insert(4);
+        tree.insert(6);
+        tree.insert(2);
+
+        let res = tree.find_node(3);
+        assert!(res.is_some());
+        assert_eq!(3, res.as_ref().unwrap().borrow().data);
+        assert_eq!(
+            2,
+            res.as_ref()
+                .unwrap()
+                .borrow()
+                .left
+                .as_ref()
+                .unwrap()
+                .borrow()
+                .data
+        );
+        assert_eq!(
+            4,
+            res.as_ref()
+                .unwrap()
+                .borrow()
+                .right
+                .as_ref()
+                .unwrap()
+                .borrow()
+                .data
+        );
     }
 }
