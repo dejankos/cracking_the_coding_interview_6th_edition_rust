@@ -12,11 +12,11 @@ fn find_in_order_successor(tree: Tree<usize>, n_val: usize) -> Option<usize> {
             tree.min_from(right)
         } else {
             let mut root = tree.root();
-            let mut temp = root.as_ref().unwrap().clone();
+            let mut temp = None;
 
             while root.as_ref().is_some() {
                 if n_val < root.as_ref().unwrap().borrow().data {
-                    temp = root.as_ref().unwrap().clone();
+                    temp = root.clone();
                     root = root.take().unwrap().borrow().left.clone();
                 } else if n_val > root.as_ref().unwrap().borrow().data {
                     root = root.take().unwrap().borrow().right.clone();
@@ -24,12 +24,10 @@ fn find_in_order_successor(tree: Tree<usize>, n_val: usize) -> Option<usize> {
                     break;
                 }
             }
-            // only because temp was initialised to root didn't want to use Optional
-            // will fix sometime
-            if temp.borrow().data < n_val {
-                None
+            if let Some(link) = temp {
+                Some(link.borrow().data)
             } else {
-                Some(temp.borrow().data)
+                None
             }
         };
     } else {
@@ -42,7 +40,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn should_find_in_order_successor() {
+    fn should_find_in_order_successor_in_right_subtree() {
         let mut tree = Tree::new();
         tree.insert(5);
         tree.insert(2);
@@ -57,7 +55,7 @@ mod tests {
     }
 
     #[test]
-    fn should_find_in_order_successor_1() {
+    fn should_find_in_order_successor_as_root() {
         let mut tree = Tree::new();
         tree.insert(5);
         tree.insert(2);
@@ -72,7 +70,7 @@ mod tests {
     }
 
     #[test]
-    fn should_find_in_order_successor_2() {
+    fn should_find_root_in_order_successor_in_right_subtree() {
         let mut tree = Tree::new();
         tree.insert(5);
         tree.insert(2);
