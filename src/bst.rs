@@ -148,21 +148,48 @@ where
         None
     }
 
-    pub fn r_find_node_side(&self, n_val: T, node: &Link<T>) -> Option<Link<T>> {
+    pub fn find_node_bt(&self, n_val: T) -> Option<Link<T>> {
+        if let Some(r) = &self.root {
+            return self.r_find_node_bt(n_val, r);
+        }
+
+        None
+    }
+
+    pub fn r_find_node_bt(&self, n_val: T, node: &Link<T>) -> Option<Link<T>> {
         if n_val == node.borrow().data {
             return Some(node.clone());
         }
 
-        if n_val < node.borrow().data {
-            if let Some(ref left) = node.borrow().left {
-                return self.r_find_node_side(n_val, left);
-            }
-        } else {
-            if let Some(ref right) = node.borrow().right {
-                return self.r_find_node_side(n_val, right);
-            }
+        let (mut l, mut r) = (None, None);
+        if let Some(ref left) = node.borrow().left {
+            l = self.r_find_node(n_val, left);
         }
-        None
+        if let Some(ref right) = node.borrow().right {
+            r = self.r_find_node(n_val, right);
+        }
+
+        if l.is_some() {
+            l
+        } else {
+            r
+        }
+    }
+
+    pub fn r_contains_node_bt(&self, n_val: T, node: &Link<T>) -> bool {
+        if n_val == node.borrow().data {
+            return true;
+        }
+
+        let (mut l, mut r) = (false, false);
+        if let Some(ref left) = node.borrow().left {
+            l = self.r_contains_node_bt(n_val, left);
+        }
+        if let Some(ref right) = node.borrow().right {
+            r = self.r_contains_node_bt(n_val, right);
+        }
+
+        l || r
     }
 
     pub fn root(&self) -> Option<Link<T>> {

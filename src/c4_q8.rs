@@ -2,23 +2,31 @@
 // of two nodes in a binary tree. Avoid storing additional nodes in a data structure. NOTE: This is not
 // necessarily a binary search tree.
 
-
 use std::fs::read;
 use std::rc::Rc;
 
 use crate::bst::{Link, Tree};
 
-fn find_first_common_ancestor(tree: Tree<usize>, fn_val: usize, sn_val: usize) -> usize {
-    r_find(&tree, tree.root.as_ref().unwrap(), &tree.find_node(fn_val).unwrap(), &tree.find_node(sn_val).unwrap()).
-        borrow().
-        data
+fn find_first_common_ancestor_bst(tree: Tree<usize>, fn_val: usize, sn_val: usize) -> usize {
+    let f = &tree.find_node_bt(fn_val).unwrap();
+    let s = &tree.find_node_bt(sn_val).unwrap();
+
+    find_first_common_ancestor_bt(tree, f, s)
 }
 
-fn r_find(tree: &Tree<usize>, current: &Link<usize>, f: &Link<usize>, s: &Link<usize>) -> Link<usize> {
-    println!("current {}", current.borrow().data);
+fn find_first_common_ancestor_bt(tree: Tree<usize>, f: &Link<usize>, s: &Link<usize>) -> usize {
+    r_find(&tree, tree.root.as_ref().unwrap(), f, s)
+        .borrow()
+        .data
+}
 
+fn r_find(
+    tree: &Tree<usize>,
+    current: &Link<usize>,
+    f: &Link<usize>,
+    s: &Link<usize>,
+) -> Link<usize> {
     if Rc::ptr_eq(current, f) || Rc::ptr_eq(current, s) {
-        println!("found node by ref {}", current.borrow().data);
         return current.clone();
     }
 
@@ -27,37 +35,40 @@ fn r_find(tree: &Tree<usize>, current: &Link<usize>, f: &Link<usize>, s: &Link<u
         left = is_left(tree, Some(f), Some(s), v);
     }
     if left.0 != left.1 {
-        println!("found node diverge {}", current.borrow().data);
         return current.clone();
     }
 
     return if left.1 {
-        println!("moving left");
         r_find(tree, current.borrow().left.as_ref().unwrap(), f, s)
     } else {
-        println!("moving right");
         r_find(tree, current.borrow().right.as_ref().unwrap(), f, s)
     };
 }
 
-fn is_left(tree: &Tree<usize>, f: Option<&Link<usize>>, s: Option<&Link<usize>>, left: &Link<usize>) -> (bool, bool) {
+fn is_left(
+    tree: &Tree<usize>,
+    f: Option<&Link<usize>>,
+    s: Option<&Link<usize>>,
+    left: &Link<usize>,
+) -> (bool, bool) {
     let (mut fl, mut sl) = (false, false);
     if let Some(f_rc) = f {
-        let found = tree.r_find_node(f_rc.borrow().data, left);
-        fl = found.is_some();
+        fl = tree.r_contains_node_bt(f_rc.borrow().data, left);
     }
 
     if let Some(s_rc) = s {
-        let found = tree.r_find_node(s_rc.borrow().data, left);
-        sl = found.is_some();
+        sl = tree.r_contains_node_bt(s_rc.borrow().data, left);
     }
 
     (fl, sl)
 }
 
-
 #[cfg(test)]
 mod tests {
+    use std::cell::RefCell;
+
+    use crate::bst::Node;
+
     use super::*;
 
     #[test]
@@ -69,7 +80,7 @@ mod tests {
         tree.insert(1);
         tree.insert(3);
 
-        let res = find_first_common_ancestor(tree, 1, 3);
+        let res = find_first_common_ancestor_bst(tree, 1, 3);
         assert_eq!(2, res)
     }
 
@@ -82,7 +93,7 @@ mod tests {
         tree.insert(1);
         tree.insert(3);
 
-        let res = find_first_common_ancestor(tree, 1, 7);
+        let res = find_first_common_ancestor_bst(tree, 1, 7);
         assert_eq!(5, res)
     }
 
@@ -95,7 +106,47 @@ mod tests {
         tree.insert(1);
         tree.insert(3);
 
-        let res = find_first_common_ancestor(tree, 2, 3);
+        let res = find_first_common_ancestor_bst(tree, 2, 3);
         assert_eq!(2, res)
+    }
+
+    #[test]
+    fn should_find_first_common_ancestor_in_bt() {
+        let left_l1 = Rc::new(RefCell::new(Node {
+            data: 45,
+            left: None,
+            right: None,
+        }));
+        let left_r1 = Rc::new(RefCell::new(Node {
+            data: 42,
+            left: None,
+            right: None,
+        }));
+        let right_l1 = Rc::new(RefCell::new(Node {
+            data: 100,
+            left: None,
+            right: None,
+        }));
+        let left = Rc::new(RefCell::new(Node {
+            data: 20,
+            left: Some(left_l1.clone()),
+            right: Some(left_r1.clone()),
+        }));
+        let right = Rc::new(RefCell::new(Node {
+            data: 10,
+            left: Some(right_l1.clone()),
+            right: None,
+        }));
+        let root = Rc::new(RefCell::new(Node {
+            data: 5,
+            left: Some(left.clone()),
+            right: Some(right),
+        }));
+
+        let mut tree = Tree::new();
+        tree.build_from(root);
+
+        let res = find_first_common_ancestor_bt(tree, &left_l1.clone(), &left_r1.clone());
+        assert_eq!(20, res)
     }
 }
