@@ -148,6 +148,23 @@ where
         None
     }
 
+    pub fn r_find_node_side(&self, n_val: T, node: &Link<T>) -> Option<Link<T>> {
+        if n_val == node.borrow().data {
+            return Some(node.clone());
+        }
+
+        if n_val < node.borrow().data {
+            if let Some(ref left) = node.borrow().left {
+                return self.r_find_node_side(n_val, left);
+            }
+        } else {
+            if let Some(ref right) = node.borrow().right {
+                return self.r_find_node_side(n_val, right);
+            }
+        }
+        None
+    }
+
     pub fn root(&self) -> Option<Link<T>> {
         self.root.clone()
     }
