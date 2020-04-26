@@ -3,7 +3,7 @@
 
 use crate::bst::{Link, Tree};
 
-fn build_depths(tree: Tree<usize>) -> Vec<Option<Vec<usize>>> {
+pub fn build_depths(tree: Tree<usize>) -> Vec<Option<Vec<usize>>> {
     let mut vec = vec![];
     if let Some(r) = &tree.root {
         r_pre_order_traversal(r, &mut vec, 0);
