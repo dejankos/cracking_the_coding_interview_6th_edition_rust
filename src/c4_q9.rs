@@ -8,32 +8,30 @@ use crate::bst::{Link, Tree};
 use crate::c4_q3::build_depths;
 
 fn possible_combinations(tree: Tree<usize>) -> Vec<Vec<usize>> {
-    let mut l_per = build_depths(tree)
+    let mut lvl_per = build_depths(tree)
         .iter()
         .map(|lvl| lvl_per(lvl.as_ref().unwrap()))
         .collect::<Vec<Vec<Vec<usize>>>>();
 
-    let mut c_lvl = 1;
-    let mut res = vec![];
-    let root = l_per[0][0].clone();
-    res.push(root);
+    let mut lvl_idx = 1;
+    let mut res = vec![lvl_per[0][0].clone()];
 
     // iter lvl per lvl while joining all combinations
-    while c_lvl <= l_per.len() - 1 {
-        let mut lvl = &mut l_per[c_lvl];
-        let mut r_inner = vec![];
-        for v in res.iter_mut() {
-            for l in lvl.iter_mut() {
+    while lvl_idx <= lvl_per.len() - 1 {
+        let lvl = &lvl_per[lvl_idx];
+        let mut lvl_join = vec![];
+        for v in res.iter() {
+            for l in lvl.iter() {
                 let joined = v
                     .iter()
                     .copied()
                     .chain(l.iter().copied())
                     .collect::<Vec<usize>>();
-                r_inner.push(joined);
+                lvl_join.push(joined);
             }
         }
-        c_lvl = c_lvl + 1;
-        res = r_inner;
+        lvl_idx = lvl_idx + 1;
+        res = lvl_join;
     }
     res
 }
