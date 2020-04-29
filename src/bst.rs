@@ -214,7 +214,7 @@ where
             return true;
         }
 
-        if this_root.is_none() || other_root.is_none() {
+        if this_root.is_none() ^ other_root.is_none() {
             return false;
         }
 

@@ -70,4 +70,19 @@ mod tests {
         let mut other_empty_tree = Tree::new();
         assert!(!tree.is_subtree(other_empty_tree));
     }
+
+    #[test]
+    fn should_not_be_a_subtree_3() {
+        let mut tree = Tree::new();
+        tree.insert(2);
+        tree.insert(1);
+        tree.insert(4);
+        tree.insert(3);
+        tree.insert(5);
+
+        let mut other_tree = Tree::new();
+        other_tree.insert(42);
+
+        assert!(!tree.is_subtree(other_tree));
+    }
 }
