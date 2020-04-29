@@ -195,6 +195,41 @@ where
     pub fn root(&self) -> Option<Link<T>> {
         self.root.clone()
     }
+
+    pub fn is_subtree(&self, tree: Tree<T>) -> bool {
+        if self.root.is_none() || tree.root().is_none() {
+            return false;
+        }
+
+        let root_data = tree.root().unwrap().borrow().data;
+        if let Some(root) = self.find_node(root_data) {
+            self.r_is_subtree(&tree.root(), &Some(root))
+        } else {
+            false
+        }
+    }
+
+    fn r_is_subtree(&self, this_root: &Option<Link<T>>, other_root: &Option<Link<T>>) -> bool {
+        if this_root.is_none() && other_root.is_none() {
+            return true;
+        }
+
+        if this_root.is_none() || other_root.is_none() {
+            return false;
+        }
+
+        if this_root.as_ref().unwrap().borrow().data != other_root.as_ref().unwrap().borrow().data {
+            return false;
+        }
+
+        self.r_is_subtree(
+            &this_root.as_ref().unwrap().borrow().left,
+            &other_root.as_ref().unwrap().borrow().left,
+        ) && self.r_is_subtree(
+            &this_root.as_ref().unwrap().borrow().right,
+            &other_root.as_ref().unwrap().borrow().right,
+        )
+    }
 }
 
 #[allow(unused_must_use)]

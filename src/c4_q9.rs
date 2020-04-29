@@ -40,7 +40,7 @@ fn lvl_per(lvl: &Vec<usize>) -> Vec<Vec<usize>> {
     lvl.iter()
         .permutations(lvl.len())
         .unique()
-        .map(|v| v.into_iter().map(|r| *r).collect())
+        .map(|v| v.into_iter().copied().collect())
         .collect()
 }
 
