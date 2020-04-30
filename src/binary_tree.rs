@@ -7,6 +7,9 @@ use std::{cmp, fmt};
 
 pub type Link<T> = Rc<RefCell<Node<T>>>;
 
+/// A symbiote between a binary search tree and a binary tree.
+/// It started as a bst before chapter 4 later I've just added functionalities as problems required.
+/// Some methods have '_bt' suffix which is only for non BST
 pub struct Tree<T> {
     pub root: Option<Link<T>>,
 }

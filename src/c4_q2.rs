@@ -1,7 +1,7 @@
 // Minimal Tree: Given a sorted (increasing order) array with unique integer elements, write an algo­rithm
 // to create a binary search tree with minimal height.
 
-use crate::bst::Tree;
+use crate::binary_tree::Tree;
 
 fn build_min_height(s_arr: &[usize]) -> Tree<usize> {
     let mut tree = Tree::new();

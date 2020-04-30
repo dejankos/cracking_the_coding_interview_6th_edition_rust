@@ -1,6 +1,6 @@
 // Validate BST: Implement a function to check if a binary tree is a binary search tree.
 
-use crate::bst::Tree;
+use crate::binary_tree::Tree;
 
 fn is_bst(tree: Tree<usize>) -> bool {
     let vec = tree.in_order_traversal();
@@ -18,7 +18,7 @@ mod tests {
     use std::cell::RefCell;
     use std::rc::Rc;
 
-    use crate::bst::Node;
+    use crate::binary_tree::Node;
 
     use super::*;
 

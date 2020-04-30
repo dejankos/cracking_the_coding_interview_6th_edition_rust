@@ -5,7 +5,7 @@
 use std::fs::read;
 use std::rc::Rc;
 
-use crate::bst::{Link, Tree};
+use crate::binary_tree::{Link, Tree};
 
 fn find_first_common_ancestor_bst(tree: Tree<usize>, fn_val: usize, sn_val: usize) -> usize {
     let f = &tree.find_node_bt(fn_val).unwrap();
@@ -67,7 +67,7 @@ fn is_left(
 mod tests {
     use std::cell::RefCell;
 
-    use crate::bst::Node;
+    use crate::binary_tree::Node;
 
     use super::*;
 

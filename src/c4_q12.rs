@@ -3,7 +3,7 @@
 // given value. The path does not need to start or end at the root or a leaf, but it must go downwards
 // (traveling only from parent nodes to child nodes).
 
-use crate::bst::{Link, Tree};
+use crate::binary_tree::{Link, Tree};
 
 fn find_sum_path(tree: Tree<isize>, sum: isize) -> Vec<isize> {
     search_path(tree.root.as_ref().unwrap(), sum)
@@ -64,7 +64,7 @@ fn find_from_node(
 
 #[cfg(test)]
 mod tests {
-    use crate::bst::Tree;
+    use crate::binary_tree::Tree;
 
     use super::*;
 

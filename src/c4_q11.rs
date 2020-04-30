@@ -6,7 +6,7 @@
 use std::error::Error;
 use std::time::{SystemTime, UNIX_EPOCH};
 
-use crate::bst::Tree;
+use crate::binary_tree::Tree;
 use crate::c4_q3::build_depths;
 
 fn get_random_node(tree: Tree<usize>) -> usize {
@@ -22,7 +22,7 @@ fn get_random_node(tree: Tree<usize>) -> usize {
 
 #[cfg(test)]
 mod tests {
-    use crate::bst::Tree;
+    use crate::binary_tree::Tree;
 
     use super::*;
 

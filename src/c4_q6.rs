@@ -4,7 +4,7 @@
 use std::cell::RefCell;
 use std::rc::Rc;
 
-use crate::bst::{Node, Tree};
+use crate::binary_tree::{Node, Tree};
 
 fn find_in_order_successor(tree: Tree<usize>, n_val: usize) -> Option<usize> {
     if let Some(n) = tree.find_node(n_val) {

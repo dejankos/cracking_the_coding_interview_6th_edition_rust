@@ -2,7 +2,7 @@
 // this question, a balanced tree is defined to be a tree such that the heights of the two subtrees of any
 // node never differ by more than one.
 
-use crate::bst::Tree;
+use crate::binary_tree::Tree;
 
 fn is_balanced(tree: Tree<usize>) -> bool {
     if let Some(r) = &tree.root {

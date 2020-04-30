@@ -5,7 +5,7 @@
 
 #[cfg(test)]
 mod tests {
-    use crate::bst::Tree;
+    use crate::binary_tree::Tree;
 
     use super::*;
 

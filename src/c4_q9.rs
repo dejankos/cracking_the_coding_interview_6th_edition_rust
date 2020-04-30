@@ -4,7 +4,7 @@
 
 use itertools::Itertools;
 
-use crate::bst::{Link, Tree};
+use crate::binary_tree::{Link, Tree};
 use crate::c4_q3::build_depths;
 
 fn possible_combinations(tree: Tree<usize>) -> Vec<Vec<usize>> {

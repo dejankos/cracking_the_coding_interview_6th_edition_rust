@@ -1,7 +1,7 @@
 // List of Depths: Given a binary tree, design an algorithm which creates a linked list of all the nodes
 // at each depth (e.g., if you have a tree with depth D, you'll have D linked lists).
 
-use crate::bst::{Link, Tree};
+use crate::binary_tree::{Link, Tree};
 
 pub fn build_depths(tree: Tree<usize>) -> Vec<Option<Vec<usize>>> {
     let mut vec = vec![];

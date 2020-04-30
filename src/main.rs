@@ -1,4 +1,4 @@
-mod bst;
+mod binary_tree;
 mod c1_q1;
 mod c1_q2;
 mod c1_q3;
