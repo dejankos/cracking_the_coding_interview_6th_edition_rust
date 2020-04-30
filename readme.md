@@ -1,5 +1,8 @@
 ## CTCI 6th in Rust
 
+[![Build Status](https://travis-ci.com/d-kos/gm-utils.svg?branch=master)](https://travis-ci.com/github/d-kos/cracking_the_coding_interview_6th_edition_rust)
+
+
 Solutions to problems from the 6th edition of [Cracking the Coding Interview](http://www.crackingthecodinginterview.com/) written in Rust.  
 There is no better way to learn Rust smart pointers than writing data structures from scratch.  
 Everything is written in [safe Rust](https://doc.rust-lang.org/nomicon/meet-safe-and-unsafe.html).  
