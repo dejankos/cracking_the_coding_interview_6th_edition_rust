@@ -35,6 +35,7 @@ mod c4_q7;
 mod c4_q8;
 mod c4_q9;
 mod c5_q1;
+mod c5_q2;
 mod graph;
 mod linked_list;
 mod vec_stack;
