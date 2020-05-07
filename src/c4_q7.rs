@@ -58,7 +58,6 @@ mod tests {
     use crate::graph::{Graph, Vertex};
 
     use super::*;
-    
 
     #[test]
     fn should_sort_order() {

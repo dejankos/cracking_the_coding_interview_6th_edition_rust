@@ -4,7 +4,7 @@
 
 use itertools::Itertools;
 
-use crate::binary_tree::{Tree};
+use crate::binary_tree::Tree;
 use crate::c4_q3::build_depths;
 
 fn possible_combinations(tree: Tree<usize>) -> Vec<Vec<usize>> {
@@ -46,7 +46,6 @@ fn lvl_per(lvl: &Vec<usize>) -> Vec<Vec<usize>> {
 
 #[cfg(test)]
 mod tests {
-    
 
     use super::*;
 

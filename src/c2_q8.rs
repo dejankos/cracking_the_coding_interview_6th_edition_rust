@@ -9,7 +9,6 @@
 // A -> B -> C -> D -> E -> C [the same C as earlier]
 // C
 
-
 use std::fmt::Display;
 use std::rc::Rc;
 
@@ -61,8 +60,6 @@ where
 
 #[cfg(test)]
 mod tests {
-    
-    
 
     use crate::linked_list::{LinkedList, List, Node, SinglyLinkedReferenceExtension};
 

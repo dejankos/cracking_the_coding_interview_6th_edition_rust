@@ -3,7 +3,6 @@
 // from the tree. All nodes should be equally likely to be chosen. Design and implement an algorithm
 // for getRandomNode, and explain how you would implement the rest of the methods.
 
-
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use crate::binary_tree::Tree;

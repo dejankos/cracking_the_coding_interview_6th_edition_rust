@@ -7,8 +7,6 @@
 mod tests {
     use crate::binary_tree::Tree;
 
-    
-
     #[test]
     fn should_be_a_subtree() {
         let mut tree = Tree::new();
