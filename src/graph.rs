@@ -1,5 +1,5 @@
 use std::cell::RefCell;
-use std::collections::{HashSet, VecDeque};
+use std::collections::{VecDeque};
 use std::fmt;
 use std::fmt::{Debug, Display, Formatter};
 use std::rc::Rc;

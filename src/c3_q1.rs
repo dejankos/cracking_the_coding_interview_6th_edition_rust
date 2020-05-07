@@ -1,7 +1,7 @@
 //Three in One: Describe how you could use a single array to implement three stacks.
 
-use crate::vec_stack::VecStack;
-use std::process::id;
+
+
 
 #[derive(Debug)]
 struct MemRegion {

@@ -9,11 +9,11 @@
 // A -> B -> C -> D -> E -> C [the same C as earlier]
 // C
 
-use std::cell::RefCell;
+
 use std::fmt::Display;
 use std::rc::Rc;
 
-use crate::linked_list::{Link, LinkedList, List, Node, RcLink};
+use crate::linked_list::{Link, LinkedList, List};
 
 trait LoopDetection<T>: List<T>
 where
@@ -28,7 +28,7 @@ where
 {
     fn find_loop_node(&mut self) -> Link<T> {
         // fast and slow aka tortoise and hare
-        let (mut s_iter, f_iter) = (self.into_iter(), self.into_iter().skip(3).step_by(2));
+        let (s_iter, f_iter) = (self.into_iter(), self.into_iter().skip(3).step_by(2));
 
         for (s, f) in s_iter.zip(f_iter) {
             if Rc::ptr_eq(&s, &f) {
@@ -61,8 +61,8 @@ where
 
 #[cfg(test)]
 mod tests {
-    use std::cell::RefCell;
-    use std::rc::Rc;
+    
+    
 
     use crate::linked_list::{LinkedList, List, Node, SinglyLinkedReferenceExtension};
 
@@ -70,7 +70,7 @@ mod tests {
 
     #[test]
     fn should_be_circular() {
-        let mut c_node = Node::new('C');
+        let c_node = Node::new('C');
         let circular_linked_nodes = Node::new_('D', Some(Node::new_('E', Some(c_node.clone()))));
         c_node.borrow_mut().next = Some(circular_linked_nodes);
 

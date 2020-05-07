@@ -55,10 +55,10 @@ where
 
 #[cfg(test)]
 mod tests {
-    use crate::graph::{contains, Graph, Vertex};
+    use crate::graph::{Graph, Vertex};
 
     use super::*;
-    use std::fmt::format;
+    
 
     #[test]
     fn should_sort_order() {

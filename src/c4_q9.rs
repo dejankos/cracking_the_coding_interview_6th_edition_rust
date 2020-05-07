@@ -4,11 +4,11 @@
 
 use itertools::Itertools;
 
-use crate::binary_tree::{Link, Tree};
+use crate::binary_tree::{Tree};
 use crate::c4_q3::build_depths;
 
 fn possible_combinations(tree: Tree<usize>) -> Vec<Vec<usize>> {
-    let mut lvl_per = build_depths(tree)
+    let lvl_per = build_depths(tree)
         .iter()
         .map(|lvl| lvl_per(lvl.as_ref().unwrap()))
         .collect::<Vec<Vec<Vec<usize>>>>();
@@ -46,7 +46,7 @@ fn lvl_per(lvl: &Vec<usize>) -> Vec<Vec<usize>> {
 
 #[cfg(test)]
 mod tests {
-    use crate::c4_q3::build_depths;
+    
 
     use super::*;
 

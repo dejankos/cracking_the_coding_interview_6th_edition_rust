@@ -49,7 +49,7 @@ mod tests {
         tree.insert(4);
         tree.insert(9);
 
-        let mut depths = build_depths(tree);
+        let depths = build_depths(tree);
         assert_eq!(vec![5], *depths[0].as_ref().unwrap());
         assert_eq!(vec![2, 7], *depths[1].as_ref().unwrap());
         assert_eq!(vec![1, 3, 6, 8], *depths[2].as_ref().unwrap());

@@ -11,7 +11,7 @@ fn has_route(graph: &mut Graph<char>, from: RcVertex<char>, to: RcVertex<char>) 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::graph::{contains, Graph, Vertex};
+    use crate::graph::{Graph, Vertex};
 
     #[test]
     fn should_have_a_route() {

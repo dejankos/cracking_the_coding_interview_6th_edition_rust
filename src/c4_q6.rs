@@ -1,10 +1,10 @@
 // Successor: Write an algorithm to find the "next" node (i.e., in-order successor) of a given node in a
 // binary search tree. You may assume that each node has a link to its parent.
 
-use std::cell::RefCell;
-use std::rc::Rc;
 
-use crate::binary_tree::{Node, Tree};
+
+
+use crate::binary_tree::{Tree};
 
 fn find_in_order_successor(tree: Tree<usize>, n_val: usize) -> Option<usize> {
     if let Some(n) = tree.find_node(n_val) {

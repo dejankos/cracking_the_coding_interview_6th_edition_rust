@@ -7,7 +7,7 @@
 mod tests {
     use crate::binary_tree::Tree;
 
-    use super::*;
+    
 
     #[test]
     fn should_be_a_subtree() {
@@ -67,7 +67,7 @@ mod tests {
         tree.insert(3);
         tree.insert(5);
 
-        let mut other_empty_tree = Tree::new();
+        let other_empty_tree = Tree::new();
         assert!(!tree.is_subtree(other_empty_tree));
     }
 

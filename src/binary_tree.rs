@@ -1,9 +1,9 @@
 use std::cell::RefCell;
 use std::cmp::max;
 use std::fmt::{Debug, Display, Formatter};
-use std::ops::Deref;
+
 use std::rc::Rc;
-use std::{cmp, fmt};
+use std::{fmt};
 
 pub type Link<T> = Rc<RefCell<Node<T>>>;
 
