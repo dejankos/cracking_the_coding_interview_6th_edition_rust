@@ -27,7 +27,7 @@ where
     x
 }
 
-fn c_bits(mut n: u32) -> u32 {
+pub fn c_bits(mut n: u32) -> u32 {
     let mut c = 0;
     while n > 0 {
         c += n & 1;
