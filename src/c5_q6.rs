@@ -17,5 +17,6 @@ mod tests {
     #[test]
     fn should_find_number_of_bits_to_flip() {
         assert_eq!(n_flip(29, 15), 2);
+        assert_eq!(n_flip(0, 63), 6);
     }
 }
