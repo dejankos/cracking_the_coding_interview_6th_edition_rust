@@ -7,7 +7,7 @@
 
 const FULL_MASK: u8 = 0b11111111;
 
-fn draw_line(screen: &mut [u8], width: u8, x1: u8, x2: u8, y: u8) {
+fn draw_line(screen: &mut [u8], _width: u8, x1: u8, x2: u8, y: u8) {
     let start = (((y * 8) - 1) + ((x1 / 8) + 1), x1 % 8);
     let end = (((y * 8) - 1) + ((x2 / 8) + 1), 8 - x2 % 8);
 
@@ -39,7 +39,6 @@ fn gen_bit_mask(pos: u8, start: (u8, u8), end: (u8, u8)) -> u8 {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -49,11 +48,12 @@ mod tests {
         let mut screen = [0; 32];
         draw_line(&mut screen, 8, 27, 53, 2);
         assert_eq!(
-            [0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0b00011111, 0b11111111, 0b11111111, 0b11111000, 0,
-                0, 0, 0, 0, 0, 0, 0, 0],
-            screen);
+            [
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0b00011111, 0b11111111,
+                0b11111111, 0b11111000, 0, 0, 0, 0, 0, 0, 0, 0, 0
+            ],
+            screen
+        );
     }
 
     #[test]
@@ -62,6 +62,7 @@ mod tests {
         draw_line(&mut screen, 8, 10, 13, 1);
         assert_eq!(
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0b00111000, 0, 0, 0, 0, 0, 0],
-            screen);
+            screen
+        );
     }
 }
