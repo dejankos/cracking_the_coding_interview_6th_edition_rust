@@ -18,10 +18,12 @@ fn draw_line(screen: &mut [u8], width: u8, x1: u8, x2: u8, y: u8) {
             screen[idx] = screen[idx] | bit_mask;
         }
     } else {
-        let temp = FULL_MASK << end.1;
-        println!("{:b}", temp);
-        let mask = temp >> start.1;
-        println!("{:b}", mask);
+        let mut mask = 0;
+        for i in 0..8 {
+            if i > start.1 && i <= 8 - end.1 {
+                mask = mask | (1 << i);
+            }
+        }
 
         screen[start.0 as usize] = screen[start.0 as usize] | mask;
     }
@@ -58,8 +60,8 @@ mod tests {
     fn should_draw_line_1() {
         let mut screen = [0; 16];
         draw_line(&mut screen, 8, 10, 13, 1);
-
-        println!("{:?}", screen);
-        // assert_eq!([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0b00011111, 0b11111111, 0b11111111, 0b11111000, 0, 0, 0, 0, 0, 0, 0, 0, 0], screen);
+        assert_eq!(
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0b00111000, 0, 0, 0, 0, 0, 0],
+            screen);
     }
 }
