@@ -8,7 +8,7 @@ trait Deck {
     where
         Self: Sized;
     fn shuffle(&mut self);
-    fn deal_next(&mut self) -> Box<dyn Card>;
+    fn deal_next(&mut self) -> Option<Box<dyn Card>>;
     fn remaining(&self) -> usize;
 }
 
@@ -67,11 +67,11 @@ impl Deck for PokerDeck {
         self.cards.shuffle(&mut rng)
     }
 
-    fn deal_next(&mut self) -> Box<dyn Card> {
+    fn deal_next(&mut self) -> Option<Box<dyn Card>> {
         if let Some(card) = self.cards.pop() {
-            Box::new(card)
+            Some(Box::new(card))
         } else {
-            panic!("No cards left!")
+            None
         }
     }
 
@@ -98,7 +98,9 @@ mod tests {
         deck.shuffle();
         let mut cards = vec![];
         while deck.remaining() > 0 {
-            cards.push(deck.deal_next())
+            if let Some(card) = deck.deal_next() {
+                cards.push(card);
+            }
         }
 
         assert_eq!(cards.len(), 52);
