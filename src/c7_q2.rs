@@ -112,7 +112,7 @@ impl CallCenter for CCenter {
     }
 
     fn dispatch_call(&mut self) -> Option<&Box<dyn Employee>> {
-        let mut emp = self.emps.iter_mut().find(|e| e.is_free());
+        let emp = self.emps.iter_mut().find(|e| e.is_free());
 
         if let Some(e) = emp {
             e.assign();
@@ -129,7 +129,7 @@ mod tests {
 
     #[test]
     fn should_dispatch_call_in_order() {
-        let mut emps: Vec<Box<dyn Employee>> = vec![
+        let emps: Vec<Box<dyn Employee>> = vec![
             Box::new(Director { assigned: false }),
             Box::new(Manager { assigned: false }),
             Box::new(Respondent { assigned: false }),
