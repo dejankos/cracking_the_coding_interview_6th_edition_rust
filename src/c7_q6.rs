@@ -116,10 +116,8 @@ impl Puzzle {
         for i in 0..self.matrix.len() {
             for j in 0..self.matrix[i].len() {
                 let p = self.find_piece(&self.pieces, i, j);
-                println!("{} - {} = {:?}", i, j, &p);
                 let idx = self.pieces.iter().position(|x| x == &p.1).unwrap();
                 self.pieces.remove(idx);
-
                 self.matrix[i][j] = Some(p.0)
             }
         }
