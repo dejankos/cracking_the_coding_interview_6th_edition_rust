@@ -1,6 +1,5 @@
 // Online Book Reader: Design the data structures for an online book reader system.
 
-use std::collections::hash_map::RandomState;
 use std::collections::{HashMap, HashSet};
 
 #[derive(Eq, Hash, PartialEq, Debug, Clone)]
@@ -82,7 +81,6 @@ mod tests {
         lib.reg_user(user.clone());
         let book = &lib.list_books()[0];
         lib.borrow_book(&user, book);
-        let current = lib.currently_reading(&user);
 
         assert!(lib.currently_reading(&user).contains(book));
         assert_eq!(lib.currently_reading(&user).len(), 1);
