@@ -5,7 +5,7 @@
 const M: usize = 3;
 const N: usize = 3;
 
-#[derive(Copy, Clone, PartialEq)]
+#[derive(Copy, Clone, PartialEq, Debug)]
 enum Orientation {
     Left,
     Top,
@@ -13,14 +13,14 @@ enum Orientation {
     Down,
 }
 
-#[derive(Copy, Clone, PartialEq)]
+#[derive(Copy, Clone, PartialEq, Debug)]
 enum Edge {
     Flat,
     Outer,
     Inner,
 }
 
-#[derive(Copy, Clone, PartialEq)]
+#[derive(Copy, Clone, PartialEq, Debug)]
 struct Piece {
     left: Edge,
     top: Edge,
@@ -29,6 +29,7 @@ struct Piece {
     orientation: Orientation,
 }
 
+#[derive(Debug)]
 struct Puzzle {
     matrix: Vec<Vec<Option<Piece>>>,
     pieces: Vec<Piece>,
@@ -114,12 +115,17 @@ impl Puzzle {
 
         for i in 0..self.matrix.len() {
             for j in 0..self.matrix[i].len() {
-                self.matrix[i][j] = Some(self.find_piece(&self.pieces, i, j))
+                let p = self.find_piece(&self.pieces, i, j);
+                println!("{} - {} = {:?}", i, j, &p);
+                let idx = self.pieces.iter().position(|x| x == &p.1).unwrap();
+                self.pieces.remove(idx);
+
+                self.matrix[i][j] = Some(p.0)
             }
         }
     }
 
-    fn find_piece(&self, pieces: &Vec<Piece>, i: usize, j: usize) -> Piece {
+    fn find_piece(&self, pieces: &Vec<Piece>, i: usize, j: usize) -> (Piece, Piece) {
         match (i, j) {
             (0, 0) => find_matching_piece(pieces, |p| p.left == Edge::Flat && p.top == Edge::Flat),
             (0, M) => find_matching_piece(pieces, |p| {
@@ -127,10 +133,13 @@ impl Puzzle {
                 left.right.is_opposite(p.left) && p.right == Edge::Flat && p.top == Edge::Flat
             }),
             (N, 0) => find_matching_piece(pieces, |p| p.left == Edge::Flat && p.down == Edge::Flat),
-            (_, 0) => find_matching_piece(pieces, |p| p.is_corner() && p.left == Edge::Flat),
+            (_, 0) => find_matching_piece(pieces, |p| {
+                let top = self.matrix[i - i][j].unwrap();
+                p.left == Edge::Flat && top.down.is_opposite(p.top)
+            }),
             (0, _) => find_matching_piece(pieces, |p| {
                 let left = self.matrix[i][j - 1].unwrap();
-                left.right.is_opposite(p.left)
+                p.is_edge() && left.right.is_opposite(p.left)
             }),
             (M, N) => find_matching_piece(pieces, |p| {
                 let left = self.matrix[i][j - 1].unwrap();
@@ -149,32 +158,31 @@ impl Puzzle {
     }
 }
 
-fn find_matching_piece<F>(pieces: &Vec<Piece>, f: F) -> Piece
+fn find_matching_piece<F>(pieces: &Vec<Piece>, f: F) -> (Piece, Piece)
 where
     F: Fn(&Piece) -> bool,
 {
     //assume we'll always find a matching piece
     let mut piece_at_right_angle = None;
-    pieces
-        .iter()
-        .find(|p| {
-            let mut found = false;
-            let mut piece = **p;
-            for _ in 0..3 {
-                if f(&piece) {
-                    found = true;
-                    piece_at_right_angle = Some(piece);
-                    break;
-                } else {
-                    piece.rotate_right()
-                }
+    let mut to_remove = None;
+    pieces.iter().find(|p| {
+        let mut found = false;
+        let mut piece = **p;
+        to_remove = Some(piece.clone());
+        for _ in 0..3 {
+            if f(&piece) {
+                found = true;
+                piece_at_right_angle = Some(piece);
+                break;
+            } else {
+                piece.rotate_right()
             }
+        }
 
-            found
-        })
-        .unwrap();
+        found
+    });
 
-    piece_at_right_angle.unwrap()
+    (piece_at_right_angle.unwrap(), to_remove.unwrap())
 }
 
 #[cfg(test)]
@@ -191,29 +199,75 @@ mod tests {
             orientation: Orientation::Left,
         };
 
-        let mut p1_1 = p0_0.clone();
-        p1_1.top = Edge::Inner;
-        p1_1.down = Edge::Inner;
-        p1_1.right = Edge::Inner;
+        let p0_1 = Piece {
+            top: Edge::Flat,
+            left: Edge::Outer,
+            right: Edge::Inner,
+            down: Edge::Outer,
+            orientation: Orientation::Left,
+        };
 
-        let mut p2_1 = p1_1.clone();
-        p2_1.top = Edge::Outer;
-        p2_1.down = Edge::Flat;
-        p2_1.left = Edge::Flat;
-        p2_1.left = Edge::Inner;
+        let p0_2 = Piece {
+            top: Edge::Flat,
+            left: Edge::Outer,
+            right: Edge::Flat,
+            down: Edge::Outer,
+            orientation: Orientation::Left,
+        };
 
-        let mut p1_1 = p0_0.clone();
-        p1_1.top = Edge::Flat;
-        p1_1.down = Edge::Inner;
-        p1_1.left = Edge::Outer;
-        p1_1.right = Edge::Outer;
+        let p1_0 = Piece {
+            top: Edge::Inner,
+            left: Edge::Flat,
+            right: Edge::Inner,
+            down: Edge::Outer,
+            orientation: Orientation::Left,
+        };
 
-        let mut p1_2 = p1_1.clone();
-        p1_2.top = Edge::Flat;
-        p1_2.right = Edge::Flat;
-        p1_2.left = Edge::Inner;
-        p1_2.down = Edge::Outer;
+        let p1_1 = Piece {
+            top: Edge::Inner,
+            left: Edge::Outer,
+            right: Edge::Inner,
+            down: Edge::Outer,
+            orientation: Orientation::Left,
+        };
 
-        let mut p2_2 = p0_0.clone();
+        let p1_2 = Piece {
+            top: Edge::Inner,
+            left: Edge::Outer,
+            right: Edge::Flat,
+            down: Edge::Outer,
+            orientation: Orientation::Left,
+        };
+
+        let p2_0 = Piece {
+            top: Edge::Inner,
+            left: Edge::Flat,
+            right: Edge::Outer,
+            down: Edge::Flat,
+            orientation: Orientation::Left,
+        };
+
+        let p2_1 = Piece {
+            top: Edge::Inner,
+            left: Edge::Inner,
+            right: Edge::Outer,
+            down: Edge::Flat,
+            orientation: Orientation::Left,
+        };
+
+        let p2_2 = Piece {
+            top: Edge::Inner,
+            left: Edge::Inner,
+            right: Edge::Flat,
+            down: Edge::Flat,
+            orientation: Orientation::Left,
+        };
+
+        let mut puzzle = Puzzle::new(
+            M,
+            N,
+            vec![p0_0, p0_1, p1_1, p2_1, p2_2, p2_0, p1_2, p0_2, p1_0, p2_1],
+        );
+        puzzle.solve();
     }
 }
