@@ -42,6 +42,7 @@ mod c5_q6;
 mod c5_q7;
 mod c5_q8;
 mod c7_q1;
+mod c7_q12;
 mod c7_q2;
 mod c7_q3;
 mod c7_q4;

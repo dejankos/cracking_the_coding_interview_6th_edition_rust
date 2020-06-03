@@ -44,7 +44,7 @@ where
     type Item = T;
     fn next(&mut self) -> Option<Self::Item> {
         if self.next < self.c_arr.size {
-            let mut next = self.c_arr.get(self.next);
+            let next = self.c_arr.get(self.next);
             self.next += 1;
 
             *next
