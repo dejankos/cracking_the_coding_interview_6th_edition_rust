@@ -8,7 +8,7 @@ Everything is written in [safe Rust](https://doc.rust-lang.org/nomicon/meet-safe
 
 #### Status
 
-WIP at chapter 7 currently.  
+WIP at chapter 8 currently.  
 Not all solutions are optimal,  I've tried to reuse as much code as possible so chapters 2 - 5 including Linked List, Graphs, BT & BST...
 are solved mostly by extending data structures with traits or in the ds implementation.  
 Most if not all of data structure internals is exposed publicly for simplicity. 

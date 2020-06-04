@@ -6,8 +6,6 @@ use std::collections::LinkedList;
 use std::fmt::Debug;
 use std::hash::{Hash, Hasher};
 
-
-
 #[derive(Debug)]
 struct HashMap<K, V>
 where
