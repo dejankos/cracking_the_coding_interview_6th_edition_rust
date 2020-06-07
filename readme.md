@@ -1,6 +1,6 @@
 ## CTCI 6th in Rust
 
-[![Build Status](https://travis-ci.com/d-kos/cracking_the_coding_interview_6th_edition_rust.svg?token=sNjGsNiesGj4Fh2vAs2J&branch=master)](https://travis-ci.com/d-kos/cracking_the_coding_interview_6th_edition_rust)
+[![Build Status](https://travis-ci.com/dejankos/cracking_the_coding_interview_6th_edition_rust.svg?branch=master)](https://travis-ci.com/github/dejankos/cracking_the_coding_interview_6th_edition_rust)
 
 Solutions to problems from the 6th edition of [Cracking the Coding Interview](http://www.crackingthecodinginterview.com/) written in Rust.  
 There is no better way to learn Rust smart pointers than writing data structures from scratch.  
