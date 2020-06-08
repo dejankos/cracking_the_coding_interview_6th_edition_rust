@@ -31,7 +31,15 @@ mod tests {
     fn should_gen_all_subsets() {
         let set = vec![1, 2, 3];
         assert_eq!(
-            vec![[3], [3, 2], [2], [3, 1], [3, 2, 1], [2, 1], [1]],
+            vec![
+                vec![3],
+                vec![3, 2],
+                vec![2],
+                vec![3, 1],
+                vec![3, 2, 1],
+                vec![2, 1],
+                vec![1]
+            ],
             gen_subset(set)
         );
     }
