@@ -54,6 +54,7 @@ mod c8_q2;
 mod c8_q3;
 mod c8_q4;
 mod c8_q5;
+mod c8_q6;
 mod graph;
 mod linked_list;
 mod vec_stack;
