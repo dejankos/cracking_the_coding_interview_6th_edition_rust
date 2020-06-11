@@ -2,7 +2,7 @@
 // of n pairs of parentheses.
 
 use std::collections::HashSet;
-use std::iter::FromIterator;
+
 
 fn gen_parens(n: usize) -> HashSet<String> {
     n_pairs(n).into_iter().collect::<HashSet<String>>()
@@ -42,6 +42,7 @@ pub fn rotate(s: String) -> Vec<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::iter::FromIterator;
 
     #[test]
     fn should_gen_n_pairs() {
