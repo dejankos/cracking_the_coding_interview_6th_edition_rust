@@ -21,7 +21,7 @@ fn str_per(mut s: String) -> Vec<String> {
     }
 }
 
-fn rotate(s: String, c: char) -> Vec<String> {
+pub fn rotate(s: String, c: char) -> Vec<String> {
     let mut res = vec![];
     res.push(format!("{}{}", s, c));
 
