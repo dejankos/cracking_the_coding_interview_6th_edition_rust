@@ -5,7 +5,7 @@ use std::collections::HashSet;
 use std::iter::FromIterator;
 
 fn gen_parens(n: usize) -> HashSet<String> {
-    HashSet::from_iter(n_pairs(n))
+    n_pairs(n).into_iter().collect::<HashSet<String>>()
 }
 
 fn n_pairs(n: usize) -> Vec<String> {
