@@ -2,6 +2,8 @@
 // i. Given a sorted array of distinct integers, write a method to find a magic index, if one exists, in
 // array A.
 
+use std::cmp::Ordering;
+
 const NOT_FOUND: usize = 99;
 
 fn find_magic_index(arr: [isize; 10]) -> usize {
@@ -14,15 +16,15 @@ fn r_magic_index(arr: [isize; 10], s: usize, e: usize) -> usize {
     }
 
     let mid = (s + e) / 2;
-    if arr[mid] == mid as isize {
-        mid
-    } else if arr[mid] < mid as isize {
-        r_magic_index(arr, mid + 1, e)
-    } else {
-        if mid == 0 {
-            NOT_FOUND
-        } else {
-            r_magic_index(arr, s, mid - 1)
+    match arr[mid].cmp(&(mid as isize)) {
+        Ordering::Equal => mid,
+        Ordering::Less => r_magic_index(arr, mid + 1, e),
+        Ordering::Greater => {
+            if mid == 0 {
+                NOT_FOUND
+            } else {
+                r_magic_index(arr, s, mid - 1)
+            }
         }
     }
 }

@@ -9,14 +9,14 @@ fn find_max_sequence(n: u32) -> usize {
     for i in (0..32).rev() {
         let x = (n >> i) & 1;
         if x == 1 {
-            current = current + 1;
+            current += 1;
         } else {
             if flip {
                 flip = false;
                 current = 0;
             } else {
                 flip = true;
-                current = current + 1;
+                current += 1;
             }
         }
         if current > max {

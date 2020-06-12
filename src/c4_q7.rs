@@ -23,7 +23,7 @@ where
         .iter()
         .for_each(|n| r_topological_sort(n.clone(), &mut deq));
 
-    deq.iter().map(|rc| rc.clone()).collect()
+    deq.iter().cloned().collect()
 }
 
 fn r_topological_sort<T>(v: RcVertex<T>, deq: &mut VecDeque<RcVertex<T>>)
@@ -38,12 +38,12 @@ where
     });
 
     if !contains(&deq, v.clone()) {
-        deq.push_front(v.clone());
+        deq.push_front(v);
     }
 }
 
 fn contains<T>(v: &VecDeque<RcVertex<T>>, rc: RcVertex<T>) -> bool {
-    v.iter().find(|v| Rc::ptr_eq(v, &rc)).is_some()
+    v.iter().any(|v| Rc::ptr_eq(v, &rc))
 }
 
 fn unwrap_value<T>(source: Vec<RcVertex<T>>) -> Vec<T>

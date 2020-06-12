@@ -32,7 +32,7 @@ where
         let mut deq = VecDeque::new();
         let mut visited = Vec::new();
         v.borrow_mut().visited = true;
-        deq.push_back(v.clone());
+        deq.push_back(v);
 
         while let Some(rc) = deq.pop_front() {
             visited.push(rc.clone());
@@ -77,8 +77,8 @@ impl<T: Display> Display for Graph<T> {
     }
 }
 
-pub fn contains<T>(v: &Vec<RcVertex<T>>, rc: RcVertex<T>) -> bool {
-    v.iter().find(|v| Rc::ptr_eq(v, &rc)).is_some()
+pub fn contains<T>(v: &[RcVertex<T>], rc: RcVertex<T>) -> bool {
+    v.iter().any(|v| Rc::ptr_eq(v, &rc))
 }
 
 #[cfg(test)]

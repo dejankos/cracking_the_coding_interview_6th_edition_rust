@@ -4,7 +4,7 @@ fn gen_subset(set: Vec<usize>) -> Vec<Vec<usize>> {
     r_gen_subset(&set, 0)
 }
 
-fn r_gen_subset(set: &Vec<usize>, i: usize) -> Vec<Vec<usize>> {
+fn r_gen_subset(set: &[usize], i: usize) -> Vec<Vec<usize>> {
     if i == set.len() - 1 {
         vec![vec![set[i]]]
     } else {

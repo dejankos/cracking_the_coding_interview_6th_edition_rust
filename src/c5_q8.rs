@@ -15,17 +15,17 @@ fn draw_line(screen: &mut [u8], _width: u8, x1: u8, x2: u8, y: u8) {
         for i in start.0..end.0 + 1 {
             let bit_mask = gen_bit_mask(i, start, end);
             let idx = i as usize;
-            screen[idx] = screen[idx] | bit_mask;
+            screen[idx] |= bit_mask;
         }
     } else {
         let mut mask = 0;
         for i in 0..8 {
             if i > start.1 && i <= 8 - end.1 {
-                mask = mask | (1 << i);
+                mask |= (1 << i);
             }
         }
 
-        screen[start.0 as usize] = screen[start.0 as usize] | mask;
+        screen[start.0 as usize] |= mask;
     }
 }
 

@@ -30,13 +30,13 @@ fn possible_combinations(tree: Tree<usize>) -> Vec<Vec<usize>> {
                 lvl_join.push(joined);
             }
         }
-        lvl_idx = lvl_idx + 1;
+        lvl_idx += 1;
         res = lvl_join;
     }
     res
 }
 
-fn lvl_per(lvl: &Vec<usize>) -> Vec<Vec<usize>> {
+fn lvl_per(lvl: &[usize]) -> Vec<Vec<usize>> {
     lvl.iter()
         .permutations(lvl.len())
         .unique()

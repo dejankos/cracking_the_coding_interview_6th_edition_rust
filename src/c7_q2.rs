@@ -6,6 +6,7 @@
 // the first available employee.
 trait CallCenter {
     fn new(emps: Vec<Box<dyn Employee>>) -> Self;
+    #[allow(clippy::borrowed_box)]
     fn dispatch_call(&mut self) -> Option<&Box<dyn Employee>>;
 }
 
@@ -111,6 +112,7 @@ impl CallCenter for CCenter {
         CCenter { emps }
     }
 
+    #[allow(clippy::borrowed_box)]
     fn dispatch_call(&mut self) -> Option<&Box<dyn Employee>> {
         let emp = self.emps.iter_mut().find(|e| e.is_free());
 

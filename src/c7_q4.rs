@@ -66,7 +66,7 @@ impl Parking {
     }
 
     fn find_lvl(&self, lvl: isize) -> Option<ParkingLevel> {
-        self.levels.iter().find(|l| l.id == lvl).map(|l| l.clone())
+        self.levels.iter().find(|l| l.id == lvl).map(|l| l).cloned()
     }
 
     fn find_spot_in_row(&self, lvl: ParkingLevel, v_size: usize) -> (bool, usize, usize, usize) {
@@ -84,10 +84,7 @@ impl Parking {
     }
 
     fn is_spot_free(&self, spots: &[SpotStatus]) -> bool {
-        spots
-            .iter()
-            .map(|s| if *s == SpotStatus::Free { true } else { false })
-            .all_equal()
+        spots.iter().map(|s| *s == SpotStatus::Free).all_equal()
     }
 }
 

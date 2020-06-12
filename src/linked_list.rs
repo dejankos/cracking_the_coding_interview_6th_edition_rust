@@ -80,7 +80,7 @@ impl<T> Node<T> {
             self.prev.take().unwrap().borrow_mut().next = self.next.clone();
         }
 
-        list.size = list.size - 1;
+        list.size -= 1;
     }
 
     fn is_first(&self) -> bool {
@@ -124,7 +124,7 @@ where
                 self.tail = Some(new_node);
             }
         }
-        self.size = self.size + 1;
+        self.size += 1;
     }
 
     fn remove(&mut self, e: T) {
@@ -217,7 +217,7 @@ where
     fn add_node(&mut self, link: Link<T>) {
         match self.tail.take() {
             Some(tail) => {
-                tail.borrow_mut().next = link.clone();
+                tail.borrow_mut().next = link;
             }
             _ => panic!("Doesn't support empty!"),
         }

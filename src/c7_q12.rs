@@ -32,7 +32,7 @@ where
 {
     fn new(size: usize) -> Self {
         let mut table = Vec::with_capacity(size);
-        table.resize_with(size, || LinkedList::new());
+        table.resize_with(size, LinkedList::new);
 
         HashMap { table }
     }
@@ -66,7 +66,7 @@ where
         let f = list
             .iter()
             .filter(|e| e.key != key)
-            .map(|e| *e)
+            .copied()
             .collect::<LinkedList<Entry<K, V>>>();
 
         list.clear();

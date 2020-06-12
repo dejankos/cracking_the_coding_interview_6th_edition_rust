@@ -91,9 +91,9 @@ impl Piece {
 
     fn flat_parts(&self) -> usize {
         let mut c = (self.down == Edge::Flat) as usize;
-        c = c + (self.top == Edge::Flat) as usize;
-        c = c + (self.right == Edge::Flat) as usize;
-        c = c + (self.down == Edge::Flat) as usize;
+        c += (self.top == Edge::Flat) as usize;
+        c += (self.right == Edge::Flat) as usize;
+        c += (self.down == Edge::Flat) as usize;
 
         c
     }
@@ -123,7 +123,8 @@ impl Puzzle {
         }
     }
 
-    fn find_piece(&self, pieces: &Vec<Piece>, i: usize, j: usize) -> (Piece, Piece) {
+    #[allow(clippy::eq_op)]
+    fn find_piece(&self, pieces: &[Piece], i: usize, j: usize) -> (Piece, Piece) {
         match (i, j) {
             (0, 0) => find_matching_piece(pieces, |p| p.left == Edge::Flat && p.top == Edge::Flat),
             (0, M) => find_matching_piece(pieces, |p| {
@@ -156,7 +157,7 @@ impl Puzzle {
     }
 }
 
-fn find_matching_piece<F>(pieces: &Vec<Piece>, f: F) -> (Piece, Piece)
+fn find_matching_piece<F>(pieces: &[Piece], f: F) -> (Piece, Piece)
 where
     F: Fn(&Piece) -> bool,
 {
@@ -166,7 +167,7 @@ where
     pieces.iter().find(|p| {
         let mut found = false;
         let mut piece = **p;
-        to_remove = Some(piece.clone());
+        to_remove = Some(piece);
         for _ in 0..3 {
             if f(&piece) {
                 found = true;

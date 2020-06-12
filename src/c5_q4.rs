@@ -3,14 +3,14 @@
 
 fn find_next(n: u32) -> (u32, u32) {
     let bits = c_bits(n);
-    let (mut l, mut s) = (n.clone(), n.clone());
+    let (mut l, mut s) = (n, n);
     (
         f_next(bits, || {
-            l = l + 1;
+            l += 1;
             l
         }),
         f_next(bits, || {
-            s = s - 1;
+            s -= 1;
             s
         }),
     )
@@ -31,7 +31,7 @@ pub fn c_bits(mut n: u32) -> u32 {
     let mut c = 0;
     while n > 0 {
         c += n & 1;
-        n = n >> 1;
+        n >>= 1;
     }
     c
 }

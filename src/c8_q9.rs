@@ -3,7 +3,6 @@
 
 use std::collections::HashSet;
 
-
 fn gen_parens(n: usize) -> HashSet<String> {
     n_pairs(n).into_iter().collect::<HashSet<String>>()
 }
