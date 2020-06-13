@@ -21,7 +21,7 @@ fn draw_line(screen: &mut [u8], _width: u8, x1: u8, x2: u8, y: u8) {
         let mut mask = 0;
         for i in 0..8 {
             if i > start.1 && i <= 8 - end.1 {
-                mask |= (1 << i);
+                mask |= 1 << i;
             }
         }
 
