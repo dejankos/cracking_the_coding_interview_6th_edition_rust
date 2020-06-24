@@ -41,20 +41,17 @@ impl Parking {
     }
 
     fn park_at_level(&mut self, lvl: isize, vehicle: VehicleType) -> bool {
-        let mut found = false;
         if let Some(l) = self.find_lvl(lvl) {
             let spot = self.find_spot_in_row(l, vehicle.size());
             if spot.0 {
                 self.park(lvl, spot.1, spot.2, spot.3);
-                found = true
+                true
             } else {
-                found = false
+                false
             }
         } else {
-            found = false
+            false
         }
-
-        found
     }
 
     fn park(&mut self, lvl: isize, row_idx: usize, start: usize, end: usize) {
@@ -119,12 +116,12 @@ mod tests {
         assert!(found);
 
         assert_eq!(
-            vec![vec![SpotStatus::Taken; 5], vec![SpotStatus::Taken; 3],],
+            vec![vec![SpotStatus::Taken; 5], vec![SpotStatus::Taken; 3], ],
             parking.find_lvl(-1).unwrap().rows
         );
 
         assert_eq!(
-            vec![vec![SpotStatus::Free; 5], vec![SpotStatus::Free; 2],],
+            vec![vec![SpotStatus::Free; 5], vec![SpotStatus::Free; 2], ],
             parking.find_lvl(0).unwrap().rows
         );
     }

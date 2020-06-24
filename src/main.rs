@@ -64,4 +64,5 @@ mod graph;
 mod linked_list;
 mod vec_stack;
 
+#[allow(dead_code)]
 fn main() {}
