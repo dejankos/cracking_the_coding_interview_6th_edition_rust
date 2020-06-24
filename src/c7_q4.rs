@@ -116,12 +116,12 @@ mod tests {
         assert!(found);
 
         assert_eq!(
-            vec![vec![SpotStatus::Taken; 5], vec![SpotStatus::Taken; 3], ],
+            vec![vec![SpotStatus::Taken; 5], vec![SpotStatus::Taken; 3],],
             parking.find_lvl(-1).unwrap().rows
         );
 
         assert_eq!(
-            vec![vec![SpotStatus::Free; 5], vec![SpotStatus::Free; 2], ],
+            vec![vec![SpotStatus::Free; 5], vec![SpotStatus::Free; 2],],
             parking.find_lvl(0).unwrap().rows
         );
     }
