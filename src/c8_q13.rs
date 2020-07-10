@@ -56,7 +56,6 @@ mod tests {
             Box { w: 1, h: 3, d: 2 },
         ];
 
-        let x = find_tallest(boxes);
-        println!("{}", x);
+        assert_eq!(10, find_tallest(boxes));
     }
 }
