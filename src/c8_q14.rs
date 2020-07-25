@@ -6,7 +6,6 @@
 // countEval("l /\ 01011", false) -> 2
 // countEval("0&0&0&1 A ll0", true)-> 10
 
-
 fn count_eval(expr: &str, res: bool) -> usize {
     if expr.len() == 0 {
         return 0;
@@ -28,18 +27,13 @@ fn count_eval(expr: &str, res: bool) -> usize {
 
         let mut total_true = 0;
         match c {
-            '^' => {
-                total_true = left_true * right_false + left_false * right_true
-            }
-            '&' => {
-                total_true = left_true * right_true
-            }
+            '^' => total_true = left_true * right_false + left_false * right_true,
+            '&' => total_true = left_true * right_true,
             '|' => {
-                total_true = left_true * right_true + left_false * right_true + left_true * right_false
+                total_true =
+                    left_true * right_true + left_false * right_true + left_true * right_false
             }
-            _ => {
-                panic!("unknown op ")
-            }
+            _ => panic!("unknown op"),
         }
 
         let sub_ways = if res { total_true } else { total - total_true };
@@ -48,7 +42,6 @@ fn count_eval(expr: &str, res: bool) -> usize {
 
     ways
 }
-
 
 #[cfg(test)]
 mod tests {
